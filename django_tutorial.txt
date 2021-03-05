@@ -1,0 +1,23 @@
+1. Making the virtual Env
+	- COMMAND: python -m venv env
+	- holds all of the projects dependencies
+
+
+2. Activate the venv
+	- COMMAND: source env/bin/activate
+	- now you are not on your laptop installing things
+	- you will see "(env)"
+	- Helps everyone that is developing know exactly what packages and libraries are used
+	- To get out of the virtual environment:
+		- COMMAND: deactivate
+
+
+3. Making the Django Project
+	- COMMAND: django-admin.py startproject <name of the project>
+
+4. Create the Postgres Database
+	- 
+
+5. Run your backend server that was made by Django
+	- make sure you are in the directory with manage.py
+	- COMMAND: python manage.py runserver
