@@ -78,15 +78,15 @@ WSGI_APPLICATION = 'keepfit_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'KeepFit_DB',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': '',
-        'HOST': 'localhost',
+        'PASSWORD': 'Fitness123',
+        'HOST': 'keepfit-database.cf7l2p0jxb3s.us-east-2.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
-
-
+# nice
+# yessir
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 

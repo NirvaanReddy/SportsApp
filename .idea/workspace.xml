@@ -1,52 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="df3d07c9-9af7-4c4a-90f1-6e6f171cec01" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/SportsApp.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="df3d07c9-9af7-4c4a-90f1-6e6f171cec01" name="Default Changelist" comment="update">
+      <change afterPath="$PROJECT_DIR$/keepfit_api/keepfit/s.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/keepfit_api/keepfit/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/SportsApp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SportsApp.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/keepfit_api/keepfit/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/keepfit_api/keepfit/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/keepfit_api/keepfit_api/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/keepfit_api/keepfit_api/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/keepfit_api/keepfit_api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/keepfit_api/keepfit_api/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list id="55162268-d045-4eff-937b-2a4dbefacc0f" name="Changes by gabe" comment="">
+      <change beforePath="$PROJECT_DIR$/keepfit_api/keepfit/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/keepfit_api/keepfit/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/keepfit_api/keepfit/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/keepfit_api/keepfit/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/keepfit_api/keepfit_api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/keepfit_api/keepfit_api/urls.py" afterDir="false" />
+    </list>
+    <list id="4d782d3c-f329-4b79-b330-ca026b2bb7c7" name="Changes by samiam" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/keepfit_api/keepfit_api/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="471">
-              <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/keepfit_api/keepfit_api/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="17" column="36" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
-              <folding>
-                <element signature="e#635#667#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/keepfit_api/keepfit/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
-              <caret line="2" column="26" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -60,10 +43,27 @@
       </list>
     </option>
   </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/keepfit_api/keepfit/views.py">
+      <ranges>
+        <range start1="1" end1="1" start2="1" end2="12" changelist="55162268-d045-4eff-937b-2a4dbefacc0f" />
+        <range start1="3" end1="3" start2="14" end2="76" changelist="df3d07c9-9af7-4c4a-90f1-6e6f171cec01" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/keepfit_api/keepfit_api/urls.py">
+      <ranges>
+        <range start1="16" end1="17" start2="16" end2="17" changelist="55162268-d045-4eff-937b-2a4dbefacc0f" />
+        <range start1="19" end1="21" start2="19" end2="19" changelist="df3d07c9-9af7-4c4a-90f1-6e6f171cec01" />
+        <range start1="24" end1="25" start2="22" end2="23" changelist="55162268-d045-4eff-937b-2a4dbefacc0f" />
+        <range start1="26" end1="27" start2="24" end2="25" changelist="df3d07c9-9af7-4c4a-90f1-6e6f171cec01" />
+      </ranges>
+    </file>
+  </component>
   <component name="ProjectFrameBounds" fullScreen="true">
     <option name="width" value="1280" />
     <option name="height" value="800" />
   </component>
+  <component name="ProjectId" id="1px1dMCJIvOYIaZdE5ZaZb3mqpl" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -83,25 +83,45 @@
       </pane>
     </panes>
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/keepfit_api/keepfit" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.completion" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/keepfit_api/keepfit" />
+    </key>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="df3d07c9-9af7-4c4a-90f1-6e6f171cec01" name="Default Changelist" comment="" />
+      <created>1616110013943</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1616110013943</updated>
+      <workItem from="1616110015170" duration="2463000" />
+      <workItem from="1616112498432" duration="3302000" />
+      <workItem from="1616128238362" duration="4461000" />
+      <workItem from="1616132717840" duration="135000" />
+    </task>
+    <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -125,6 +145,25 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/keepfit_api/requirements.txt">
