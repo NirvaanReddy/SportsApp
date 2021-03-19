@@ -2,7 +2,8 @@ from django.db import models
 
 # Create your models here.
 class User(models.Model):
-    # id = models.IntegerField(primary_key=True)
+
+    id = models.IntegerField(primary_key=True)
     # profile_picture_url = models.CharField(max_length=9999)
     # profile_picture = models.ImageField(upload_to="profile_pictures/")
 
@@ -14,6 +15,9 @@ class User(models.Model):
     
     birth_date = models.DateField()
 
+    following = models.ManyToManyField(User, symmetrical=False)
+
+
     class Meta:
         db_table = 'user'
 
@@ -24,3 +28,30 @@ class User(models.Model):
     # def save(self, *args, **kwargs):
     #     super().save(*args, **kwargs)  # Call the "real" save() method.
     #
+
+
+#x = Workout.objects.filter(category=2).sortByDate().filter(top10)
+#for workout in x:
+#    jsonData = jsonify(workout)
+#    put in lost(jsonData)
+#send back listofjsondata
+
+
+
+class Workout(models.Model):
+    id = models.IntegerField(primary_key=True)
+    creator_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.IntegerField()
+
+    class Meta:
+        db_table = 'Workout'
+
+class WorkoutSession(models.Model):
+    id = models.IntegerField(primary_key=True)
+    calories = models.FloatField()
+    exerciser_id = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'WorkoutSession'
+
+

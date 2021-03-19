@@ -10,6 +10,20 @@ import base64
 import os
 import json
 
+def update_user(request):
+    pass
+
+def get_forgot_password_questions(request):
+    pass
+
+def reset_password(request):
+    pass
+
+def follow_user(request);
+    pass
+
+def retrieveUserProfilePic(request):
+    pass
 
 # Create your views here.
 @api_view(['POST'])
@@ -34,9 +48,8 @@ def user_login(request):
         return Response("badusername")
 
 
-
 @api_view(['POST'])
-def user_registration(request):
+def create_user(request):
     body_string = request.body.decode("utf_8").split("\n")
     new_user_json = body_string[0]
     profile_pic_data = body_string[1]
@@ -74,3 +87,4 @@ def user_registration(request):
         return Response(new_user.id)
     else:
         return Response("null")
+
