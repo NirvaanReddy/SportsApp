@@ -22,7 +22,7 @@ def reset_password(request):
 def follow_user(request);
     pass
 
-def retrieveUserProfilePic(request):
+def retrieve_user_profile_pic(request):
     pass
 
 # Create your views here.
@@ -36,6 +36,7 @@ def user_login(request):
 
     users = User.objects.filter(username=username)
     # If the username exists
+
     if len(users) == 1:
         user = users[0]
         # If the password matches

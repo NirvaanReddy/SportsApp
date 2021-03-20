@@ -2,17 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="df3d07c9-9af7-4c4a-90f1-6e6f171cec01" name="Default Changelist" comment="update">
-      <change afterPath="$PROJECT_DIR$/keepfit_api/keepfit/search_endpoints.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/keepfit_api/keepfit/workout_endpoints.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/SportsApp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SportsApp.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/keepfit_api/keepfit/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/keepfit_api/keepfit/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/keepfit_api/keepfit/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/keepfit_api/keepfit/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/keepfit_api/keepfit/user_endpoints.py" beforeDir="false" afterPath="$PROJECT_DIR$/keepfit_api/keepfit/user_endpoints.py" afterDir="false" />
     </list>
     <list id="55162268-d045-4eff-937b-2a4dbefacc0f" name="Changes by gabe" comment="" />
-    <list id="4d782d3c-f329-4b79-b330-ca026b2bb7c7" name="Changes by samiam" comment="">
-      <change beforePath="$PROJECT_DIR$/keepfit_api/keepfit/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/keepfit_api/keepfit/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/keepfit_api/keepfit/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/keepfit_api/keepfit/user_endpoints.py" afterDir="false" />
-    </list>
+    <list id="4d782d3c-f329-4b79-b330-ca026b2bb7c7" name="Changes by samiam" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,6 +24,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -36,16 +40,6 @@
         <option value="$PROJECT_DIR$/keepfit_api/keepfit/models.py" />
       </list>
     </option>
-  </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/keepfit_api/keepfit/models.py">
-      <ranges>
-        <range start1="4" end1="5" start2="4" end2="6" changelist="4d782d3c-f329-4b79-b330-ca026b2bb7c7" />
-        <range start1="15" end1="15" start2="16" end2="19" changelist="df3d07c9-9af7-4c4a-90f1-6e6f171cec01" />
-        <range start1="26" end1="26" start2="30" end2="39" changelist="4d782d3c-f329-4b79-b330-ca026b2bb7c7" />
-        <range start1="27" end1="27" start2="40" end2="58" changelist="df3d07c9-9af7-4c4a-90f1-6e6f171cec01" />
-      </ranges>
-    </file>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
     <option name="width" value="1280" />
@@ -77,6 +71,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/keepfit_api/keepfit" />
@@ -86,7 +82,15 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.completion" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings module-name="SportsApp" is-module-sdk="true">
+        <option name="myUseModuleSdk" value="true" />
+        <option name="myModuleName" value="SportsApp" />
+      </console-settings>
+    </option>
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
