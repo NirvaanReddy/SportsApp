@@ -105,6 +105,39 @@ def completedWorkout(request):
 
     pass
 
+def postVideo(request):
+    js_workout_vid = json.loads(request.body)
+    filename = js_workout_vid[0]
+    binary_data = js_workout_vid[1]
+    path_name = 'path/videos/'
+    new_file = open(path_name + filename,'x')
+    new_file.write(binary_data)
+    new_file.close()
+    worked = True
+    try:
+        r = open(path_name + filename, 'r')
+    except IOError:
+        worked = False
+
+    if worked:
+        return Response(True)
+    else:
+        return Response(False)
+
+    # json object w/2 things
+    # 1st thing unique file name
+    # 2nd thing is gonna be binary data
+
+
+
+
+def downloadVideo(request):
+    js_workout = json.loads(request.body)
+    filename = js_workout[0]
+    pathname = 'path/videos/'
+
+
+
 
 
 

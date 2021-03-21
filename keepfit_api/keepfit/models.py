@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 class User(models.Model):
 
-    id = models.IntegerField(primary_key=True)
+    id = models.CharField(primary_key=True)
     # profile_picture_url = models.CharField(max_length=9999)
     # profile_picture = models.ImageField(upload_to="profile_pictures/")
 
@@ -18,6 +18,7 @@ class User(models.Model):
     following = models.ManyToManyField(User, symmetrical=False)
     savedWorkouts = models.ManyToManyField(Workout, symmetrical=False)
     completedWorkouts = models.ManyToManyField(WorkoutSession, symmetrical=False)
+    uploadedWorkouts = models.
     class Meta:
         db_table = 'user'
 
@@ -34,7 +35,7 @@ class User(models.Model):
 #send back listofjsondata
 
 class Workout(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.CharField(primary_key=True)
     creator_id = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.IntegerField()
     title = models.CharField(max_length=255)
@@ -45,7 +46,7 @@ class Workout(models.Model):
         db_table = 'Workout'
 
 class WorkoutSession(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.CharField(primary_key=True)
     workout_id = models.ForeignKey(Workout, on_delete=models.CASCADE)
     calories = models.FloatField()
     exerciser_id = models.ForeignKey(User, on_delete=models.CASCADE)
