@@ -17,18 +17,14 @@ class User(models.Model):
 
     following = models.ManyToManyField(User, symmetrical=False)
 
-
     class Meta:
         db_table = 'user'
 
     # def save(self):
     #     models.Model.save(self)
     #     return self.pk
-    #
     # def save(self, *args, **kwargs):
     #     super().save(*args, **kwargs)  # Call the "real" save() method.
-    #
-
 
 #x = Workout.objects.filter(category=2).sortByDate().filter(top10)
 #for workout in x:
@@ -36,12 +32,11 @@ class User(models.Model):
 #    put in lost(jsonData)
 #send back listofjsondata
 
-
-
 class Workout(models.Model):
     id = models.IntegerField(primary_key=True)
     creator_id = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.IntegerField()
+    caption = models.CharField(max_length=True)
 
     class Meta:
         db_table = 'Workout'

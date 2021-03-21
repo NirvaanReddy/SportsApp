@@ -19,7 +19,7 @@ def get_forgot_password_questions(request):
 def reset_password(request):
     pass
 
-def follow_user(request);
+def follow_user(request):
     pass
 
 def retrieveUserProfilePic(request):
