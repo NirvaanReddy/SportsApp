@@ -9,32 +9,40 @@ from django.core.files import File
 import base64
 import os
 import json
-#
+
+
+@api_view(['POST'])
 def searchCategory(request):
     name_json = json.loads(request.body.decode("utf_8"))
     type = name_json["category"]
-    categories = Workout.objects.filter(category = type)
-    if len(categories != 1):
-        return categories
-    else:
-        return ("notfound")
+    categories = list(Workout.objects.filter(category=type))
+
+    #convert to json
+    listOfDictionaries = [ob.__dict__ for ob in categories]
+    json_string = json.dumps(listOfDictionaries)
+
+    return Response(json_string)
+    #https://pythonexamples.org/python-list-to-json/#3
 
 
+@api_view(['POST'])
 def searchUsers(request):
     name_json = json.loads(request.body.decode("utf_8"))
     name = name_json["username"] #name is now a string of the sent username
-    users = User.objects.filter(username=name)
-    # If the username exists
-    if len(users) !=0:
-        return users
-    else:
-        return Response("notfound")
+    users = list(User.objects.filter(username=name))
+    # If the username exi
+    listOfDictionaries = [ob.__dict__ for ob in users]
+    json_string = json.dumps(listOfDictionaries)
 
+    return Response(json_string)
+
+@api_view(['POST'])
 def searchWorkouts(request):
     name_json = json.loads(request.body.decode("utf_8"))
-    caption_ = name_json["workout"]
-    workout = Workout.objects.filter(caption=caption_)
-    if len(workout) != 0:
-        return workout
-    else:
-        return Response("notfound")
+    title_ = name_json["workout"]
+    workout = list(Workout.objects.filter(title=title_))
+
+    dict = [ob.__dict__ for ob in workout]
+    json_string = json.dumps(dict)
+
+    return Response(json_string)

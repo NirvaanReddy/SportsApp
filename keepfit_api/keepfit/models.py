@@ -16,7 +16,8 @@ class User(models.Model):
     birth_date = models.DateField()
 
     following = models.ManyToManyField(User, symmetrical=False)
-
+    savedWorkouts = models.ManyToManyField(Workout, symmetrical=False)
+    completedWorkouts = models.ManyToManyField(WorkoutSession, symmetrical=False)
     class Meta:
         db_table = 'user'
 
@@ -36,13 +37,16 @@ class Workout(models.Model):
     id = models.IntegerField(primary_key=True)
     creator_id = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.IntegerField()
-    caption = models.CharField(max_length=True)
+    title = models.CharField(max_length=255)
+    caption = models.CharField(max_length=255)
 
+    #def __init__():
     class Meta:
         db_table = 'Workout'
 
 class WorkoutSession(models.Model):
     id = models.IntegerField(primary_key=True)
+    workout_id = models.ForeignKey(Workout, on_delete=models.CASCADE)
     calories = models.FloatField()
     exerciser_id = models.ForeignKey(User, on_delete=models.CASCADE)
 

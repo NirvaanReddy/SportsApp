@@ -21,38 +21,40 @@ import json
 # + func downloadWorkoutVideos(w http.ResponseWriter, r *http.Request)
 # + func completedWorkout(w http.ResponseWriter, r *http.Request)
 
-@api_view(['POST'])
-def get_workout_categories(request):
-    json_workouts = json.loads(request.body.decode("utf_8"))
-
-    workout = Workout.objects.filter(id = None)
-
-    if len(workout) < 1:
-        return Response("No Workouts")
-    else:
-        return Response(workout)
+# @api_view(['POST'])
+# def get_workout_categories(request):
+#     json_workouts = json.loads(request.body.decode("utf_8"))
+#
+#     workout = Workout.objects.filter(id = None)
+#
+#     if len(workout) < 1:
+#         return Response("No Workouts")
+#     else:
+#         return Response(workout)
 
 
 @api_view(['POST'])
 def getSavedWorkouts(request):
     # not sure if userId will be passed in as well
     json_userId = json.loads(request.body.decode("utf_8"))
-    userId = json_userId[0]
+    userId = json_userId["userID"]
     user = User.objects.filter(id = userId)
-    savedWorkouts =  user.savedWorkouts.all()
-    if len(savedWorkouts) > 0:
-        return Response(savedWorkouts)
-    else:
-        return Response("Saved some workouts")
+    savedWorkouts = list(user.savedWorkouts.all())
+    
+    listOfDictionaries = [ob.__dict__ for ob in savedWorkouts]
+    json_string = json.dumps(listOfDictionaries)
+    return Response(json_string)
 
 @api_view(['POST'])
-def getCompletedWorkouts( request):
+def getCompletedWorkouts(request):
     json_userId = json.loads(request.body.decode("utf_8"))
-    userId = json_userId[0]
+    userId = json_userId["userID"]
     user = User.objects.filter(id=userId)
     completedWorkouts = user.completedWorkouts.all()
     if len(completedWorkouts) > 0:
-        return Response(completedWorkouts)
+        listOfDictionaries = [ob.__dict__ for ob in completedWorkouts]
+        json_string = json.dumps(listOfDictionaries)
+        return Response(json_string)
     else:
         return Response("Saved some workouts")
 
@@ -60,26 +62,48 @@ def getCompletedWorkouts( request):
 @api_view(['POST'])
 def saveWorkout(request):
     json_Workout = json.loads(request.body.decode("utf_8"))
-    userId = json_Workout[0]
-    workout_id = json_Workout[1]
+    userId = json_Workout["userID"]
+    workoutID = json_Workout["workoutID"]
+
     user = User.objects.filter(id=userId)
+    workout = Workout.objects.filter(id = workoutID)
+    if(len(user) == 1):
+        user.savedWorkouts.add(workout)
+        user.savedWorkouts.save()
+        return Response("Success")
 
-    user.savedWorkouts.add
 
 @api_view(['POST'])
-def publishWorkout( rWriter, hRequest):
-    pass
+def publishWorkout(request):
+    json_workout = json.loads(request.body.decode("utf_8"))
+
+    video_file = new_user_json["video_file"]
+    # save video file to file system for later use
+
+    new_workout = Workout.create (
+        id = json_workout["id"],
+        title=new_user_json["profile_picture_url"],
+        description=new_user_json["weight"],
+        category=new_user_json["height_in_inches"],
+    )
+
+    new_workout.save()
+
 
 @api_view(['POST'])
-def downloadWorkoutVideos( rWriter, hRequest):
-    pass
+def getWorkout(request):
+    json_workoutID = json.loads(request.body.decode("utf_8"))
+    wId = json_workoutID[0]
+    workout = Workout.objects.filter(id = wId)
+    listOfDictionaries = [ob.__dict__ for ob in workout]
+    json_string = json.dumps(listOfDictionaries)
+    return Response(json_string)
 
 @api_view(['POST'])
-def completedWorkout( rWriter, hRequest):
+def completedWorkout(request):
+    js_workout_sess = json.loads(request.body.decode("utf_8"))
+
     pass
-
-
-
 
 
 
