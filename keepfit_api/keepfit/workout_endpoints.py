@@ -3,9 +3,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db import models
 from .s import *
-from .models import User
-from .workout import Workout
-from .workOutSessions import WorkoutSession
+from .user import User
+from .user import Workout
+from .user import WorkoutSession
 from django.core.files import File
 from django.http import HttpResponse
 

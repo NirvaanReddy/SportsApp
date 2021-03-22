@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db import models
 from .s import *
-from .models import User
+from .user import User
 from django.core.files import File
 
 import base64

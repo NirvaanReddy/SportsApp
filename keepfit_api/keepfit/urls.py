@@ -7,10 +7,14 @@ from . import search_endpoints
 from . import workout_endpoints
 
 
+def test_server(request):
+    return HttpResponse("server is working")
+
 urlpatterns = [
     path('login/', user_endpoints.user_login),
-    path('register/', user_endpoints.user_registration),
-    path('searchCaterogies/', search_endpoints.searchCategories),
+    path('',test_server),
+    path('register/', user_endpoints.create_user),
+    path('searchCaterogies/', search_endpoints.searchCategory),
     path('searchWorkouts/',search_endpoints.searchWorkouts),
     path('searchUsers/',search_endpoints.searchUsers),
     path('getSavedWorkouts/', workout_endpoints.getSavedWorkouts),
@@ -20,7 +24,7 @@ urlpatterns = [
     path('getWorkout/',workout_endpoints.getWorkout),
     path('completedWorkout/',workout_endpoints.completedWorkout),
     path('downloadVideo/', workout_endpoints.downloadVideo),
-    path('videos/')
+    #path('videos/')
 ]
 # getUserPreview(id: String) -> UserPreview
 # PATH = "getUser" // do this for each endpoint so on the front end I know where to send each of the HTTP Requests
