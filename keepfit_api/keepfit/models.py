@@ -18,7 +18,6 @@ class User(models.Model):
     following = models.ManyToManyField(User, symmetrical=False)
     savedWorkouts = models.ManyToManyField(Workout, symmetrical=False)
     completedWorkouts = models.ManyToManyField(WorkoutSession, symmetrical=False)
-    uploadedWorkouts = models.
     class Meta:
         db_table = 'user'
 
