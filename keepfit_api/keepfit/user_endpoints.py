@@ -60,14 +60,19 @@ def create_user(request):
     # If the set is empty, create the user and the profile picture
     query_results = User.objects.filter(username=new_user_json["username"])
     if len(query_results) == 0:
-        new_user = User.create(
+        profile = new_user_json["profilePicture"]
+        text_file = open("/home/ec2-user/photos/" + new_user_json["id"], "w")
+        n = text_file.write(profile)
+        text_file.close()
+        new_user = User.objects.create(
             id=new_user_json["id"],
-            profile_picture_url=new_user_json["profile_picture_url"],
+            sex=new_user_json["sex"],
             weight=new_user_json["pounds"],
-            height_in_inches=new_user_json["height_in_inches"],
+            height_in_inches=new_user_json["inches"],
+            bio = new_user_json["shortBiography"],
             username=new_user_json["username"],
             password=new_user_json["password"],
-            birth_date=new_user_json["birth_date"]
+            #birth_date=new_user_json["birth_date"]
         )
 
         new_user.save()

@@ -25,6 +25,7 @@ urlpatterns = [
     path('completedWorkout/',workout_endpoints.completedWorkout),
     path('downloadVideo/', workout_endpoints.downloadVideo),
     #path('videos/')
+    #path('pics',)
 ]
 # getUserPreview(id: String) -> UserPreview
 # PATH = "getUser" // do this for each endpoint so on the front end I know where to send each of the HTTP Requests

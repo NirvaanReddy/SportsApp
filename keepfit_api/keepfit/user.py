@@ -12,14 +12,17 @@ class User(models.Model):
     weight = models.FloatField()
     height_in_inches = models.IntegerField()
 
+    sex = models.CharField(max_length=80)
+
     username = models.CharField(max_length=255, unique=True)
     password = models.CharField(max_length=255)
 
-    birth_date = models.DateField()
+    #birth_date = models.DateField()
+    bio = models.CharField(max_length=255)
 
     #following = models.ManyToManyField(User, symmetrical=False)
     #savedWorkouts = models.ManyToManyField(Workout, symmetrical=False)
-    completedWorkouts = models.ManyToManyField('WorkoutSession', symmetrical=False)
+    #completedWorkouts = models.ManyToManyField('WorkoutSession', symmetrical=False)
 
     class Meta:
         db_table = 'user'
