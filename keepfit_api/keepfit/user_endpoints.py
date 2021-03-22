@@ -84,7 +84,7 @@ def create_user(request):
         #     user.profile_picture = new_image
         #     user.save()
 
-        return Response(new_user.id)
+        return Response(True)
     else:
-        return Response("null")
+        return Response(False)
 
