@@ -1,7 +1,17 @@
+import self as self
 from django.db import models
 
 # Create your models here.
+class Workout(models.Model):
+    id = models.CharField(primary_key=True)
+    creator_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.IntegerField()
+    title = models.CharField(max_length=255)
+    caption = models.CharField(max_length=255)
 
+    #def __init__():
+    class Meta:
+        db_table = 'Workout'
 
 
 class User(models.Model):
@@ -17,24 +27,15 @@ class User(models.Model):
 
     birth_date = models.DateField()
 
-    following = models.ManyToManyField(__self__, symmetrical=False)
+   # following = models.ManyToManyField(User, symmetrical=False)
     savedWorkouts = models.ManyToManyField(Workout, symmetrical=False)
-    completedWorkouts = models.ManyToManyField(WorkoutSession, symmetrical=False)
+    #completedWorkouts = models.ManyToManyField(WorkoutSession, symmetrical=False)
 
     class Meta:
         db_table = 'user'
 
 
-class Workout(models.Model):
-    id = models.CharField(primary_key=True)
-    creator_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.IntegerField()
-    title = models.CharField(max_length=255)
-    caption = models.CharField(max_length=255)
 
-    #def __init__():
-    class Meta:
-        db_table = 'Workout'
 
 class WorkoutSession(models.Model):
     id = models.CharField(primary_key=True)
