@@ -51,9 +51,7 @@ def user_login(request):
 
 @api_view(['POST'])
 def create_user(request):
-    body_string = request.body.decode("utf_8").split("\n")
-    new_user_json = body_string[0]
-    profile_pic_data = body_string[1]
+    new_user_json = request.body.decode("utf_8")
 
     # serializer = UserSerializer(data=userJson)
     # if not serializer.is_valid():
@@ -63,8 +61,9 @@ def create_user(request):
     query_results = User.objects.filter(username=new_user_json["username"])
     if len(query_results) == 0:
         new_user = User.create(
+            id=new_user_json["id"],
             profile_picture_url=new_user_json["profile_picture_url"],
-            weight=new_user_json["weight"],
+            weight=new_user_json["pounds"],
             height_in_inches=new_user_json["height_in_inches"],
             username=new_user_json["username"],
             password=new_user_json["password"],

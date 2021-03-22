@@ -30,7 +30,7 @@ def searchUsers(request):
     name_json = json.loads(request.body.decode("utf_8"))
     name = name_json["username"] #name is now a string of the sent username
     users = list(User.objects.filter(username=name))
-    # If the username exi
+    # If the username exists
     listOfDictionaries = [ob.__dict__ for ob in users]
     json_string = json.dumps(listOfDictionaries)
 
