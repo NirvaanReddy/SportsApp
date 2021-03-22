@@ -1,9 +1,7 @@
 from django.db import models
 
 # Create your models here.
-from models.py import Workout
-from models.py import WorkoutSession
-from models.py import User
+
 
 
 class User(models.Model):
