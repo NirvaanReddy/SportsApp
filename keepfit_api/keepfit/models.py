@@ -1,6 +1,9 @@
 from django.db import models
 
 # Create your models here.
+from models.py import Workout
+from models.py import WorkoutSession
+
 class User(models.Model):
 
     id = models.CharField(primary_key=True)
@@ -15,7 +18,7 @@ class User(models.Model):
     
     birth_date = models.DateField()
 
-    following = models.ManyToManyField(User, symmetrical=False)
+    following = models.ManyToManyField(__self__, symmetrical=False)
     savedWorkouts = models.ManyToManyField(Workout, symmetrical=False)
     completedWorkouts = models.ManyToManyField(WorkoutSession, symmetrical=False)
     class Meta:
