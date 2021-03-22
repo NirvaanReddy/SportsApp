@@ -1,6 +1,6 @@
 from django.db import models
-from models.py import User
-from w.py import Workout
+from .models import User
+from .workout import Workout
 
 class WorkoutSession(models.Model):
     id = models.CharField(primary_key=True)
@@ -9,5 +9,5 @@ class WorkoutSession(models.Model):
     exerciser_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = 'WorkoutSession'
+        db_table = 'workout_session'
 

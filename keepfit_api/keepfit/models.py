@@ -1,12 +1,10 @@
 
 from django.db import models
-from workOutSessions.py import WorkoutSession
-from w.py import Workout
+from .workOutSessions import WorkoutSession
+from .workout import Workout
 # Create your models here.
 
 class User(models.Model):
-    def __init__(self):
-        pass
 
     id = models.CharField(primary_key=True)
     # profile_picture_url = models.CharField(max_length=9999)

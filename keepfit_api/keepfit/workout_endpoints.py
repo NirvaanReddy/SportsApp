@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from django.db import models
 from .s import *
 from .models import User
-from .models import Workout
-from .models import WorkoutSession
+from .workout import Workout
+from .workOutSessions import WorkoutSession
 from django.core.files import File
 from django.http import HttpResponse
 
@@ -75,16 +75,16 @@ def saveWorkout(request):
 
 @api_view(['POST'])
 def publishWorkout(request):
-    json_workout = json.loads(request.body.decode("utf_8"))
+    workout_json = json.loads(request.body.decode("utf_8"))
 
-    video_file = new_user_json["video_file"]
+    video_file = workout_json["video_file"]
     # save video file to file system for later use
 
     new_workout = Workout.create (
-        id = json_workout["id"],
-        title=new_user_json["profile_picture_url"],
-        description=new_user_json["weight"],
-        category=new_user_json["height_in_inches"],
+        id = workout_json["id"],
+        title=workout_json["profile_picture_url"],
+        description=workout_json["weight"],
+        category=workout_json["height_in_inches"],
     )
 
     new_workout.save()

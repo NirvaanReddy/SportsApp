@@ -1,5 +1,5 @@
 from django.db import models
-from models.py import User
+from .models import User
 
 class Workout(models.Model):
     id = models.CharField(primary_key=True)
@@ -10,4 +10,4 @@ class Workout(models.Model):
 
     #def __init__():
     class Meta:
-        db_table = 'Workout'
+        db_table = 'workout'
