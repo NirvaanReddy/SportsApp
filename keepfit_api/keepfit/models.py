@@ -1,17 +1,18 @@
 
 from django.db import models
-
+from wSession import WorkoutSession
+from workoutClass import Workout
 # Create your models here.
-class Workout(models.Model):
-    id = models.CharField(primary_key=True)
-    creator_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.IntegerField()
-    title = models.CharField(max_length=255)
-    caption = models.CharField(max_length=255)
-
-    #def __init__():
-    class Meta:
-        db_table = 'Workout'
+# class Workout(models.Model):
+#     id = models.CharField(primary_key=True)
+#     creator_id = models.ForeignKey(User, on_delete=models.CASCADE)
+#     category = models.IntegerField()
+#     title = models.CharField(max_length=255)
+#     caption = models.CharField(max_length=255)
+#
+#     #def __init__():
+#     class Meta:
+#         db_table = 'Workout'
 
 
 class User(models.Model):
@@ -29,7 +30,7 @@ class User(models.Model):
 
    # following = models.ManyToManyField(User, symmetrical=False)
     savedWorkouts = models.ManyToManyField(Workout, symmetrical=False)
-    #completedWorkouts = models.ManyToManyField(WorkoutSession, symmetrical=False)
+    completedWorkouts = models.ManyToManyField(WorkoutSession, symmetrical=False)
 
     class Meta:
         db_table = 'user'
@@ -37,16 +38,16 @@ class User(models.Model):
 
 
 
-class WorkoutSession(models.Model):
-    id = models.CharField(primary_key=True)
-    workout_id = models.ForeignKey(Workout, on_delete=models.CASCADE)
-    calories = models.FloatField()
-    exerciser_id = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'WorkoutSession'
-
-
+# class WorkoutSession(models.Model):
+#     id = models.CharField(primary_key=True)
+#     workout_id = models.ForeignKey(Workout, on_delete=models.CASCADE)
+#     calories = models.FloatField()
+#     exerciser_id = models.ForeignKey(User, on_delete=models.CASCADE)
+#
+#     class Meta:
+#         db_table = 'WorkoutSession'
+#
+#
 
 
     # def save(self):
