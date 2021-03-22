@@ -1,6 +1,6 @@
 
 from django.db import models
-from workOutSessions import WorkoutSession
+from workOutSessions.py import WorkoutSession
 from w.py import Workout
 # Create your models here.
 
