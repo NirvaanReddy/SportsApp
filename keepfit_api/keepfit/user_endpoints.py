@@ -51,7 +51,7 @@ def user_login(request):
 
 @api_view(['POST'])
 def create_user(request):
-    new_user_json = request.body.decode("utf_8")
+    new_user_json = json.loads(request.body.decode("utf_8"))
 
     # serializer = UserSerializer(data=userJson)
     # if not serializer.is_valid():
