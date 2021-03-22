@@ -1,20 +1,8 @@
 
 from django.db import models
-
+from workOutSessions import WorkoutSession
+from w.py import Workout
 # Create your models here.
-class Workout(models.Model):
-    def __init__(self):
-        pass
-    id = models.CharField(primary_key=True)
-    creator_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.IntegerField()
-    title = models.CharField(max_length=255)
-    caption = models.CharField(max_length=255)
-
-    #def __init__():
-    class Meta:
-        db_table = 'Workout'
-
 
 class User(models.Model):
     def __init__(self):
@@ -42,17 +30,17 @@ class User(models.Model):
 
 
 
-class WorkoutSession(models.Model):
-    def __init__(self):
-        pass
-
-    id = models.CharField(primary_key=True)
-    workout_id = models.ForeignKey(Workout, on_delete=models.CASCADE)
-    calories = models.FloatField()
-    exerciser_id = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'WorkoutSession'
+# class WorkoutSession(models.Model):
+#     def __init__(self):
+#         pass
+#
+#     id = models.CharField(primary_key=True)
+#     workout_id = models.ForeignKey(Workout, on_delete=models.CASCADE)
+#     calories = models.FloatField()
+#     exerciser_id = models.ForeignKey(User, on_delete=models.CASCADE)
+#
+#     class Meta:
+#         db_table = 'WorkoutSession'
 
 
 
