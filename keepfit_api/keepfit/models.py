@@ -5,8 +5,8 @@ from models.py import Workout
 from models.py import WorkoutSession
 from models.py import User
 
-class User(models.Model):
 
+class User(models.Model):
     id = models.CharField(primary_key=True)
     # profile_picture_url = models.CharField(max_length=9999)
     # profile_picture = models.ImageField(upload_to="profile_pictures/")
@@ -16,26 +16,16 @@ class User(models.Model):
 
     username = models.CharField(max_length=255, unique=True)
     password = models.CharField(max_length=255)
-    
+
     birth_date = models.DateField()
 
-    following = models.ManyToManyField(User, symmetrical=False)
+    following = models.ManyToManyField(__self__, symmetrical=False)
     savedWorkouts = models.ManyToManyField(Workout, symmetrical=False)
     completedWorkouts = models.ManyToManyField(WorkoutSession, symmetrical=False)
+
     class Meta:
         db_table = 'user'
 
-    # def save(self):
-    #     models.Model.save(self)
-    #     return self.pk
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)  # Call the "real" save() method.
-
-#x = Workout.objects.filter(category=2).sortByDate().filter(top10)
-#for workout in x:
-#    jsonData = jsonify(workout)
-#    put in lost(jsonData)
-#send back listofjsondata
 
 class Workout(models.Model):
     id = models.CharField(primary_key=True)
@@ -56,5 +46,20 @@ class WorkoutSession(models.Model):
 
     class Meta:
         db_table = 'WorkoutSession'
+
+
+
+
+    # def save(self):
+    #     models.Model.save(self)
+    #     return self.pk
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)  # Call the "real" save() method.
+
+#x = Workout.objects.filter(category=2).sortByDate().filter(top10)
+#for workout in x:
+#    jsonData = jsonify(workout)
+#    put in lost(jsonData)
+#send back listofjsondata
 
 
