@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from django.db import models
 from .s import *
 from .user import User
+from .user import following
 from django.core.files import File
 
 import base64
@@ -20,7 +21,25 @@ def reset_password(request):
     pass
 
 def follow_user(request):
-    pass
+    follow_json = json.loads(request.body.decode("utf_8"))
+    follower = follow_json[0] # username of the person following someone
+    followee = follow_json[1] # person they want to follow
+    user = User.objects.filter(user_name = follower)
+    f = following(user_name = followee ,followee = user)
+    f.save()
+    if(len(following.objects.filter(user_name = followee)) > 0):
+        return Response("Success")
+    else:
+        return Response("Failure")
+
+def get_followings(request): # pass in user name
+    follow_json = json.loads(request.body.decode("utf_8")) # to get who is a
+    follower = follow_json[0]           #user is following
+    people_following = following.models.filter(user__username = follower)
+    listOfDictionaries = [ob.__dict__ for ob in people_following]
+    json_string = json.dumps(listOfDictionaries)
+    return Response(json_string)
+
 
 def retrieve_user_profile_pic(request):
     pass

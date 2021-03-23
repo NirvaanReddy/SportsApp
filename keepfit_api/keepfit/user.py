@@ -48,3 +48,10 @@ class Workout(models.Model):
     class Meta:
         db_table = 'workout'
 
+class following(models.Model):
+    followe = models.ForeignKey(User, on_delete = models.CASCADE)
+    user_name = models.CharField(max_length = 255)
+    class Meta:
+        db_table = 'followings'
+class follwers(models.Model):
+    pass
