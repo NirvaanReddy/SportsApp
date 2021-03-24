@@ -33,16 +33,24 @@ def searchUsers(request):
     # If the username exists
     listOfDictionaries = [ob.__dict__ for ob in users]
     json_string = json.dumps(listOfDictionaries)
-
     return Response(json_string)
 
 @api_view(['POST'])
 def searchWorkouts(request):
     name_json = json.loads(request.body.decode("utf_8"))
     title_ = name_json["workout"]
-    workout = list(Workout.objects.filter(title=title_))
-
+    workout = Workout.objects.filter(title=title_)
     dict = [ob.__dict__ for ob in workout]
     json_string = json.dumps(dict)
 
     return Response(json_string)
+
+#
+#
+#
+#
+#
+#
+#
+#
+#
