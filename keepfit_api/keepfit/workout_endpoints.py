@@ -66,7 +66,7 @@ def getCompletedWorkouts(request):
 def getLikedWorkouts(request):
     json_userId = json.loads(request.body.decode("utf_8"))
     userId = json_userId["userID"]
-    liked = Workout.objects.filter(liked_workouts__completer_id=userId)
+    liked = Workout.objects.filter(liked_workouts__liker_id=userId)
     listOfDictionaries = [ob.__dict__ for ob in liked]
     json_string = json.dumps(listOfDictionaries)
     return Response(json_string)
