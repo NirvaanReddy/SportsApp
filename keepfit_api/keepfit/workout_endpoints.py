@@ -97,7 +97,7 @@ def completeWorkout(request):
                                        category= json_Workout["category"],
                                        title = json_Workout["title"],
                                        caption = json_Workout["caption"],
-
+                                        calories=int(calories)
                                        )
     newWorkout.save()
     return HttpResponse("Success")

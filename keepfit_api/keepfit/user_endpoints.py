@@ -4,10 +4,10 @@ from rest_framework.response import Response
 from django.db import models
 from .s import *
 from .user import User
-from .user import following
+from .user import Following
 from .user import Workout
 from .user import WorkoutSession
-from .workout_endpoints import getLikedWorkouts
+from .workout_endpoints import *
 from django.core.files import File
 from django.http import HttpResponse
 
@@ -66,10 +66,10 @@ def follow_user(request):
     following = follow_json["followingID"] # person they want to follow
     user = User.objects.filter(username = follower)
     user2 = User.objects.filter(username= following)
-    f = following(follower = user, following = user2)
+    f = Following(follower = user, following = user2)
     f.save()
-    if(len(following.objects.filter(username = follower)) > 0
-            and len(following.objects.filter(username = following)) > 0):
+    if(len(Following.objects.filter(username = follower)) > 0
+            and len(Following.objects.filter(username = following)) > 0):
         return HttpResponse("Success")
     else:
         return HttpResponse("Failure")
@@ -99,10 +99,13 @@ def get_user_preview(request):
     sessionIDs = WorkoutSession.objects.filter(user__user_id=user_id).values("id").values_list('id', flat = True)
     followers = get_followers(user_name)
     followings = get_followings(user_name)
-    liked = getLikedWorkouts
+
+    # liked == [String] where each string is an id of a workout the user liked
+    likedWorkouts = Workout.objects.filter(liked_workouts__liker_id=user.id).values("id").values_list('id', flat = True)
     items = { "id":user_id, "username ": user_name, "shortBiography":bio,
               "profilePicture":pic, "followers": followers,"followings":followings ,
-              "sessionIDs":sessionIDs ,"publishedWorkoutIDs":published_workouts}
+              "sessionIDs":sessionIDs ,"publishedWorkoutIDs":published_workouts,
+              "likedWorkoutIDs":likedWorkouts}
     json_string = json.dumps(items)
     return HttpResponse(json_string)
 

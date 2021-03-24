@@ -76,9 +76,9 @@ class completedWorkout(models.Model):
         db_table = 'completed_workouts'
 
 
-class following(models.Model):
-    follower = models.ForeignKey('User', on_delete=models.CASCADE)
-    following = models.ForeignKey('User', on_delete=models.CASCADE)
+class Following(models.Model):
+    follower = models.ForeignKey('User', on_delete=models.CASCADE, related_name='p1')
+    following = models.ForeignKey('User', on_delete=models.CASCADE, related_name='p2')
 
     class Meta:
         db_table = 'followings'

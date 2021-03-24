@@ -61,7 +61,7 @@ def searchUsers(request):
 
         published_workouts = Workout.objects.filter(user__creater_id=user.id).values("id").values_list('id', flat=True)
         sessionIDs = WorkoutSession.objects.filter(user__user_id=user.id).values("id").values_list('id', flat=True)
-        likedWorkouts = Workout.objects.(user__=user.id).values("id").values_list('id', flat = True)
+        likedWorkouts = Workout.objects.filter(liked_workouts__liker_id=user.id).values("id").values_list('id', flat = True)
         listOfDictionaries.append({"id": user.id, "username": user.username,
                                    "shortBiography": user.shortBiography, "profilePicture": pic,
                                    "sessionIDs": sessionIDs, "likedWorkoutsIDs": likedWorkouts,
@@ -71,22 +71,22 @@ def searchUsers(request):
         json_string = json.dumps(listOfDictionaries)
         return HttpResponse(json_string)
 
-    @api_view(['POST'])
-    def searchWorkouts(request):
-        title_ = json.loads(request.body.decode("utf_8"))
+@api_view(['POST'])
+def searchWorkouts(request):
+    title_ = json.loads(request.body.decode("utf_8"))
 
-        workouts = Workout.objects.filter(title__startswith=title_)
+    workouts = Workout.objects.filter(title__startswith=title_)
 
-        listOfDictionaries = []
-        for workout in workouts:
-            listOfDictionaries.append({"id": workout.id, "creatorID": workout.creater_id,
+    listOfDictionaries = []
+    for workout in workouts:
+        listOfDictionaries.append({"id": workout.id, "creatorID": workout.creater_id,
                                        "title": workout.title, "caption": workout.caption,
                                        "createdDate": workout.createdDate, "category": workout.category
-                                       })
+                                    })
 
-        json_string = json.dumps(dict)
+    json_string = json.dumps(dict)
 
-        return HttpResponse(json_string)
+    return HttpResponse(json_string)
 
     #
     #
