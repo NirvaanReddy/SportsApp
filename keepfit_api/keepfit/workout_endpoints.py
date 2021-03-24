@@ -159,7 +159,7 @@ def postVideo(request):
 
 def downloadVideo(request):
     js_workout = json.loads(request.body)
-    filename = js_workout[0]
+    filename =
     pathname = 'path/videos/'
 
 

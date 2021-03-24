@@ -11,9 +11,9 @@ class User(models.Model):
     height_in_inches = models.IntegerField()
     sex = models.CharField(max_length=80)
     weight = models.FloatField()
-    profilePicture = models.CharField(max_length=255, unique=False)
 
-
+    # profilePicture removed
+    # profilePicture = models.CharField(max_length=255, unique=False)
 
     username = models.CharField(max_length=255, unique=True)
     password = models.CharField(max_length=255)
@@ -33,6 +33,10 @@ class WorkoutSession(models.Model):
     workout_id = models.ForeignKey('Workout', on_delete=models.CASCADE)
     calories = models.FloatField()
     user_id = models.ForeignKey('User', on_delete=models.CASCADE)
+
+    # Start and end time added
+    start_time = models.FloatField()
+    end_time = models.FloatField()
 
     class Meta:
         db_table = 'workout_session'

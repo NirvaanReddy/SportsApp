@@ -19,10 +19,13 @@ def update_user(request):
     user = User.objects.filter(id = user_id)
     user.height_in_inches = user_info["inches"]
     user.sex = user_info["sex"]
-    user.profilePicture = user_login["profilePicture"]
+    # user.profilePicture = user_login["profilePicture"]
     user.username = user_info["username"]
     user.bio = user_info["shortBiography"]
     user.save()
+
+
+
     return Response("Updated")
     #
     # sending new_user object same ID as existing user
@@ -73,15 +76,17 @@ def get_followings(username):
     return Response(json_string)
 
 def get_user_preview(request):
-    user_info = json.loads(request.body.decode("utf_8"))
+    user_id = json.loads(request.body.decode("utf_8"))
 
-    user_id = user_info["id"]
+    text_file = open("/home/ec2-user/photos/" + user_id, "r")
+    pic = text_file.read()
+    text_file.close()
+
     user = User.objects.filter(id=user_id)
     user_name = user.username
     bio = user.bio
-    pic = user.profilePicture
-    published_workouts = list(Workout.objects.filter(user__creater_id = user_id ))
-    sessionIDs = list(WorkoutSession.objects.filter(user__user_id = user_id))
+    published_workouts = list(Workout.objects.filter(user__creater_id=user_id))
+    sessionIDs = list(WorkoutSession.objects.filter(user__user_id=user_id))
     followers = get_followers(user_name)
     followings = get_followings(user_name)
     items = { "id":user_id, "user_name ": user_name, "shortBiography":bio,
@@ -144,10 +149,14 @@ def user_login(request):
         user = users[0]
         # If the password matches
         if password == user.password:
+
+            text_file = open("/home/ec2-user/photos/" + new_user_json["id"], "r")
+            pic = text_file.read()
+            text_file.close()
+
             user_id = user.id
             user_name = user.username
             bio = user.bio
-            pic = user.profilePicture
             published_workouts = list(Workout.objects.filter(user__creater_id=user_id))
             sessionIDs = list(WorkoutSession.objects.filter(user__user_id=user_id))
             items = {"id": user_id, "user_name ": user_name, "shortBiography": bio,
@@ -172,14 +181,14 @@ def create_user(request):
     if len(query_results) == 0:
         profile = new_user_json["profilePicture"]
         text_file = open("/home/ec2-user/photos/" + new_user_json["id"], "w")
-        n = text_file.write(profile)
+        text_file.write(profile)
         text_file.close()
         new_user = User.objects.create(
             id=new_user_json["id"],
             sex=new_user_json["sex"],
             weight=new_user_json["pounds"],
             height_in_inches=new_user_json["inches"],
-            bio = new_user_json["shortBiography"],
+            bio=new_user_json["shortBiography"],
             username=new_user_json["username"],
             password=new_user_json["password"],
             #birth_date=new_user_json["birth_date"]
@@ -198,7 +207,7 @@ def create_user(request):
         #     user.profile_picture = new_image
         #     user.save()
 
-        return Response("Success")
+        return HttpResponse("true")
     else:
-        return Response("Failure")
+        return HttpResponse("false")
 
