@@ -141,7 +141,7 @@ def user_login(request):
         # If the password matches
         if password == user.password:
 
-            text_file = open("/home/ec2-user/photos/" + login_json["id"], "r")
+            text_file = open("/home/ec2-user/photos/" + user.id, "r")
             pic = text_file.read()
             text_file.close()
 
