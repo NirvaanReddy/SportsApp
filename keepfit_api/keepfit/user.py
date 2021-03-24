@@ -33,7 +33,6 @@ class WorkoutSession(models.Model):
     workout_id = models.ForeignKey('Workout', on_delete=models.CASCADE)
     calories = models.FloatField()
     user_id = models.ForeignKey('User', on_delete=models.CASCADE)
-
     # Start and end time added
     start_time = models.FloatField()
     end_time = models.FloatField()
@@ -48,7 +47,6 @@ class Workout(models.Model):
     title = models.CharField(max_length=255)
     caption = models.CharField(max_length=255)
 
-    #def __init__():
     class Meta:
         db_table = 'workout'
 

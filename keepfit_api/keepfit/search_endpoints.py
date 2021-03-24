@@ -5,6 +5,9 @@ from django.db import models
 from .s import *
 from .user import *
 from django.core.files import File
+from .user import completedWorkout
+from django.core.files import File
+from django.http import HttpResponse
 
 import base64
 import os
@@ -21,7 +24,7 @@ def searchCategory(request):
     listOfDictionaries = [ob.__dict__ for ob in categories]
     json_string = json.dumps(listOfDictionaries)
 
-    return Response(json_string)
+    return HttpResponse(json_string)
     #https://pythonexamples.org/python-list-to-json/#3
 
 
@@ -33,7 +36,7 @@ def searchUsers(request):
     # If the username exists
     listOfDictionaries = [ob.__dict__ for ob in users]
     json_string = json.dumps(listOfDictionaries)
-    return Response(json_string)
+    return HttpResponse(json_string)
 
 @api_view(['POST'])
 def searchWorkouts(request):
@@ -43,7 +46,7 @@ def searchWorkouts(request):
     dict = [ob.__dict__ for ob in workout]
     json_string = json.dumps(dict)
 
-    return Response(json_string)
+    return HttpResponse(json_string)
 
 #
 #

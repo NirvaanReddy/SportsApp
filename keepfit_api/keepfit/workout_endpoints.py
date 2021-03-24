@@ -45,7 +45,7 @@ def getSavedWorkouts(request):
     savedWorkouts = Workout.objects.filter(saved_workouts__saver_id = userId)
     listOfDictionaries = [ob.__dict__ for ob in savedWorkouts]
     json_string = json.dumps(listOfDictionaries)
-    return Response(json_string)
+    return HttpResponse(json_string)
 
 @api_view(['POST'])
 def getCompletedWorkouts(request):
@@ -54,7 +54,7 @@ def getCompletedWorkouts(request):
     completedWorkouts = WorkoutSession.objects.filter(user_id=userId)
     listOfDictionaries = [ob.__dict__ for ob in completedWorkouts]
     json_string = json.dumps(listOfDictionaries)
-    return Response(json_string)
+    return HttpResponse(json_string)
 
 def getLikedWorkouts(request):
     json_userId = json.loads(request.body.decode("utf_8"))
@@ -62,7 +62,7 @@ def getLikedWorkouts(request):
     liked = Workout.objects.filter(liked_workouts__liker_id=userId)
     listOfDictionaries = [ob.__dict__ for ob in liked]
     json_string = json.dumps(listOfDictionaries)
-    return Response(json_string)
+    return HttpResponse(json_string)
 
 @api_view(['POST'])
 def saveWorkout(request):
@@ -72,7 +72,7 @@ def saveWorkout(request):
     wID = json_Workout["workoutID"]
     newWorkout = savedWorkout.create(saver_id = userId, workout_id = wID)
     newWorkout.save()
-    return Response("Success")
+    return HttpResponse("Success")
 
 
 @api_view(['POST'])
@@ -83,7 +83,7 @@ def likeWorkout(request):
     wID = json_Workout["workoutID"]
     newWorkout = likedWorkout.create(liker_id=userId, workout_id=wID)
     newWorkout.save()
-    return Response("Success")
+    return HttpResponse("Success")
 
 @api_view(['POST'])
 def completeWorkout(request):
@@ -99,7 +99,7 @@ def completeWorkout(request):
                                        caption = json_Workout["caption"]
                                        )
     newWorkout.save()
-    return Response("Success")
+    return HttpResponse("Success")
 
 
 @api_view(['POST'])
@@ -118,7 +118,7 @@ def publishWorkout(request):
     )
 
     new_workout.save()
-    return Response("Success")
+    return HttpResponse("Success")
 
 
 @api_view(['POST'])
@@ -128,7 +128,7 @@ def getWorkout(request):
     workout = Workout.objects.filter(id = wId)
     listOfDictionaries = [ob.__dict__ for ob in workout]
     json_string = json.dumps(listOfDictionaries)
-    return Response(json_string)
+    return HttpResponse(json_string)
 
 
 def postVideo(request):
@@ -146,9 +146,9 @@ def postVideo(request):
         worked = False
 
     if worked:
-        return Response(True)
+        return HttpResponse("True")
     else:
-        return Response(False)
+        return HttpResponse("False")
 
     # json object w/2 things
     # 1st thing unique file name
@@ -159,7 +159,7 @@ def postVideo(request):
 
 def downloadVideo(request):
     js_workout = json.loads(request.body)
-    filename =
+
     pathname = 'path/videos/'
 
 

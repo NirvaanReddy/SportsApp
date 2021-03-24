@@ -8,6 +8,7 @@ from .user import following
 from .user import Workout
 from .user import WorkoutSession
 from django.core.files import File
+from django.http import HttpResponse
 
 import base64
 import os
@@ -20,13 +21,18 @@ def update_user(request):
     user.height_in_inches = user_info["inches"]
     user.sex = user_info["sex"]
     # user.profilePicture = user_login["profilePicture"]
+    profile = user_info["profilePicture"]
+    text_file = open("/home/ec2-user/photos/" + user_info["id"], "w")
+    text_file.write(profile)
+    text_file.close()
     user.username = user_info["username"]
     user.bio = user_info["shortBiography"]
+    #save profle picture
     user.save()
 
 
 
-    return Response("Updated")
+    return HttpResponse("Updated")
     #
     # sending new_user object same ID as existing user
     # reassign everythin but password
@@ -45,9 +51,9 @@ def reset_password(request):
         user = users[0]
         if(old_password == user.password):
             user.password = new_password
-            return Response("Success")
+            return HttpResponse("Success")
         else:
-            return Response("notmatching")
+            return HttpResponse("notmatching")
 
 
 def follow_user(request):
@@ -60,20 +66,18 @@ def follow_user(request):
     f.save()
     if(len(following.objects.filter(username = follower)) > 0
             and len(following.objects.filter(username = following)) > 0):
-        return Response("Success")
+        return HttpResponse("Success")
     else:
-        return Response("Failure")
+        return HttpResponse("Failure")
 
 def get_followers(username): # pass in user name
-    people_followers = User.models.filter(followings__follower = username)
-    listOfDictionaries = [ob.__dict__ for ob in people_followers]
-    json_string = json.dumps(listOfDictionaries)
-    return Response(json_string)
+    people_followers = User.models.filter(followings__follower = username).values("id")
+    # answers.values_list('id', flat=True)
+    follower_ids = people_followers.values_list('id', flat= True)
+    return follower_ids
 def get_followings(username):
     people_following = User.models.filter(followings__following=username)
-    listOfDictionaries = [ob.__dict__ for ob in people_following]
-    json_string = json.dumps(listOfDictionaries)
-    return Response(json_string)
+    return people_following
 
 def get_user_preview(request):
     user_id = json.loads(request.body.decode("utf_8"))
@@ -88,12 +92,12 @@ def get_user_preview(request):
     published_workouts = list(Workout.objects.filter(user__creater_id=user_id))
     sessionIDs = list(WorkoutSession.objects.filter(user__user_id=user_id))
     followers = get_followers(user_name)
-    followings = get_followings(user_name)
+    followings = list(get_followings(user_name))
     items = { "id":user_id, "user_name ": user_name, "shortBiography":bio,
               "profilePicture":pic, "followers":followers,"followings":followings ,
               "sessionIDs":sessionIDs ,"publishedWorkoutIDs":published_workouts}
     json_string = json.dumps(items)
-    return Response(json_string)
+    return HttpResponse(json_string)
 
     # assuming userID
     # UserPreview
@@ -150,7 +154,7 @@ def user_login(request):
         # If the password matches
         if password == user.password:
 
-            text_file = open("/home/ec2-user/photos/" + new_user_json["id"], "r")
+            text_file = open("/home/ec2-user/photos/" + login_json["id"], "r")
             pic = text_file.read()
             text_file.close()
 
@@ -164,10 +168,10 @@ def user_login(request):
             json_string = json.dumps(items)
             return Response(json_string)
         else:
-            return Response("badpassword")
+            return HttpResponse("badpassword")
     # Else the username doesn't exist
     else:
-        return Response("badusername")
+        return HttpResponse("badusername")
 
 
 @api_view(['POST'])
