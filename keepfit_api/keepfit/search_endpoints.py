@@ -59,13 +59,13 @@ def searchUsers(request):
         pic = text_file.read()
         text_file.close()
 
-        published_workouts = Workout.objects.filter(user__creater_id=user_id).values("id").values_list('id', flat=True)
-        sessionIDs = WorkoutSession.objects.filter(user__user_id=user_id).values("id").values_list('id', flat=True)
-
+        published_workouts = Workout.objects.filter(user__creater_id=user.id).values("id").values_list('id', flat=True)
+        sessionIDs = WorkoutSession.objects.filter(user__user_id=user.id).values("id").values_list('id', flat=True)
+        likedWorkouts = Workout.objects.(user__=user.id).values("id").values_list('id', flat = True)
         listOfDictionaries.append({"id": user.id, "username": user.username,
                                    "shortBiography": user.shortBiography, "profilePicture": pic,
-                                   "sessionIDs":, "likedWorkoutsIDs":,
-        "publishedWorkoutIDs": published
+                                   "sessionIDs": sessionIDs, "likedWorkoutsIDs": likedWorkouts,
+                                    "publishedWorkoutIDs": published_workouts
         })
 
         json_string = json.dumps(listOfDictionaries)
@@ -73,13 +73,16 @@ def searchUsers(request):
 
     @api_view(['POST'])
     def searchWorkouts(request):
-        name_json = json.loads(request.body.decode("utf_8"))
-        title_ = name_json["workout"]
-        workout = Workout.objects.filter(title__startswith=title_)
+        title_ = json.loads(request.body.decode("utf_8"))
+
+        workouts = Workout.objects.filter(title__startswith=title_)
 
         listOfDictionaries = []
-        for w in workout:
-            listOfDictionaries.append({})
+        for workout in workouts:
+            listOfDictionaries.append({"id": workout.id, "creatorID": workout.creater_id,
+                                       "title": workout.title, "caption": workout.caption,
+                                       "createdDate": workout.createdDate, "category": workout.category
+                                       })
 
         json_string = json.dumps(dict)
 

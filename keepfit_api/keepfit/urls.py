@@ -14,7 +14,7 @@ urlpatterns = [
     path('login/', user_endpoints.user_login),
     path('',test_server),
     path('register/', user_endpoints.create_user),
-    path('searchCaterogies/', search_endpoints.searchCategory),
+    path('searchCategories/', search_endpoints.searchCategory),
     path('searchWorkouts/',search_endpoints.searchWorkouts),
     path('searchUsers/',search_endpoints.searchUsers),
     path('getSavedWorkouts/', workout_endpoints.getSavedWorkouts),
