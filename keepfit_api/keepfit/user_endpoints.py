@@ -171,7 +171,8 @@ def user_login(request):
             # }
 
             items = {"id": user_id, "username ": user_name, "shortBiography": bio,
-                     "profilePicture": pic, "sessionIDs": list(sessionIDs),
+                     #"profilePicture": pic, 
+                     "sessionIDs": list(sessionIDs),
                      "publishedWorkoutIDs": list(published_workouts),
                      "likedWorkoutIDs": list(likedWorkoutIDs_),
                      "sex": user.sex,
