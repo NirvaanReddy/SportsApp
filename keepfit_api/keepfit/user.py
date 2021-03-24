@@ -43,7 +43,7 @@ class WorkoutSession(models.Model):
 class Workout(models.Model):
     id = models.CharField(max_length=9999, primary_key=True)
     creator_id = models.ForeignKey('User', on_delete=models.CASCADE)
-    category = models.IntegerField()
+    category = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     caption = models.CharField(max_length=255)
     created_date = models.FloatField()
