@@ -170,7 +170,7 @@ def user_login(request):
             #     "sessionIDs": [String],
             # }
 
-            items = {"id": user_id, "username ": user_name, "shortBiography": bio,
+            items = {"id": user_id, "username": user_name, "shortBiography": bio,
                      "profilePicture": pic,
                      "sessionIDs": list(sessionIDs),
                      "publishedWorkoutIDs": list(published_workouts),
