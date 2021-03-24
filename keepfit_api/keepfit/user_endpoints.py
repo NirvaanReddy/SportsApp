@@ -175,7 +175,9 @@ def user_login(request):
                      "publishedWorkoutIDs": list(published_workouts),
                      "likedWorkoutIDs": list(likedWorkoutIDs_),
                      "sex": user.sex,
-                     "followingIDs": list(followIDs)
+                     "followingIDs": list(followIDs),
+                     "pounds": user.weight,
+                     "inches": user.height_in_inches
                      }
             print(list(published_workouts))
             print(list(sessionIDs))
