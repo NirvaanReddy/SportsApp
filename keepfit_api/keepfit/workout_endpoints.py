@@ -51,7 +51,7 @@ def getSavedWorkouts(request):
 def getCompletedWorkouts(request):
     json_userId = json.loads(request.body.decode("utf_8"))
     userId = json_userId["userID"]
-    completedWorkouts = Workout.objects.filter(completed_workouts__completer_id=userId)
+    completedWorkouts = WorkoutSession.objects.filter(user_id=userId)
     listOfDictionaries = [ob.__dict__ for ob in completedWorkouts]
     json_string = json.dumps(listOfDictionaries)
     return Response(json_string)
@@ -91,7 +91,13 @@ def completeWorkout(request):
     json_Workout = json.loads(request.body.decode("utf_8"))
     userId = json_Workout["userID"]
     wID = json_Workout["workoutID"]
-    newWorkout = completedWorkout.create(completer_id=userId, workout_id=wID)
+    calories = int(json_Workout["calories"])
+    newWorkout = WorkoutSession.create(id = json_Workout["workoutSessionID"],workout_id= wID,
+                                       user_id=userId,
+                                       category= int(json_Workout["category"]),
+                                       title = json_Workout["title"],
+                                       caption = json_Workout["caption"]
+                                       )
     newWorkout.save()
     return Response("Success")
 
