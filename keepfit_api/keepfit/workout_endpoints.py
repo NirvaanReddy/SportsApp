@@ -107,7 +107,7 @@ def completeWorkout(request):
 def publishWorkout(request):
     workout_json = json.loads(request.body.decode("utf_8"))
 
-    new_workout = Workout.create (
+    new_workout = Workout.create(
         id = workout_json["id"],
         title=workout_json["title"],
         creator_id = workout_json["creatorID"],

@@ -150,7 +150,8 @@ def user_login(request):
             user_name = user.username
             bio = user.bio
             published_workouts = Workout.objects.filter(creator_id=user_id).values("id").values_list('id', flat = True)
-
+            likedWorkoutIDs_ = likedWorkout.objects.filter(liker_id=user_id).values("workout_id").values_list('workout_id', flat = True)
+            followIDs =  Following.objects.filter(follower__id=user_id).values("following__id").values_list('following__id', flat = True)
             sessionIDs = WorkoutSession.objects.filter(user_id=user_id).values("id").values_list('id', flat = True)
 
             # User
@@ -170,9 +171,15 @@ def user_login(request):
             # }
 
             items = {"id": user_id, "username ": user_name, "shortBiography": bio,
-                     "profilePicture": pic, "sessionIDs": sessionIDs, "publishedWorkoutIDs": published_workouts}
-            print(published_workouts)
-            print(sessionIDs)
+                     "profilePicture": pic, "sessionIDs": list(sessionIDs),
+                     "publishedWorkoutIDs": list(published_workouts),
+                     "likedWorkoutIDs": list(likedWorkoutIDs_),
+                     "sex": user.sex,
+                     "followingIDs": list(followIDs)
+                     }
+            print(list(published_workouts))
+            print(list(sessionIDs))
+            print(list(followIDs))
             json_string = json.dumps(items)
             return HttpResponse(json_string)
         else:
