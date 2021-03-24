@@ -36,33 +36,33 @@ import json
 #         return Response(workout)
 
 
-@api_view(['POST'])
-def getSavedWorkouts(request):
-    # not sure if userId will be passed in as well
-    # assuming workou
-    json_userId = json.loads(request.body.decode("utf_8"))
-    userId = json_userId["userID"]
-    savedWorkouts = Workout.objects.filter(saved_workouts__saver_id = userId)
-    listOfDictionaries = [ob.__dict__ for ob in savedWorkouts]
-    json_string = json.dumps(listOfDictionaries)
-    return HttpResponse(json_string)
-
-@api_view(['POST'])
-def getCompletedWorkouts(request):
-    json_userId = json.loads(request.body.decode("utf_8"))
-    userId = json_userId["userID"]
-    completedWorkouts = WorkoutSession.objects.filter(user_id=userId)
-    listOfDictionaries = [ob.__dict__ for ob in completedWorkouts]
-    json_string = json.dumps(listOfDictionaries)
-    return HttpResponse(json_string)
-
-def getLikedWorkouts(request):
-    json_userId = json.loads(request.body.decode("utf_8"))
-    userId = json_userId["userID"]
-    liked = Workout.objects.filter(liked_workouts__liker_id=userId)
-    listOfDictionaries = [ob.__dict__ for ob in liked]
-    json_string = json.dumps(listOfDictionaries)
-    return HttpResponse(json_string)
+# @api_view(['POST'])
+# def getSavedWorkouts(request):
+#     # not sure if userId will be passed in as well
+#     # assuming workou
+#     json_userId = json.loads(request.body.decode("utf_8"))
+#     userId = json_userId["userID"]
+#     savedWorkouts = Workout.objects.filter(saved_workouts__saver_id = userId)
+#     listOfDictionaries = [ob.__dict__ for ob in savedWorkouts]
+#     json_string = json.dumps(listOfDictionaries)
+#     return HttpResponse(json_string)
+#
+# @api_view(['POST'])
+# def getCompletedWorkouts(request):
+#     json_userId = json.loads(request.body.decode("utf_8"))
+#     userId = json_userId["userID"]
+#     completedWorkouts = WorkoutSession.objects.filter(user_id=userId)
+#     listOfDictionaries = [ob.__dict__ for ob in completedWorkouts]
+#     json_string = json.dumps(listOfDictionaries)
+#     return HttpResponse(json_string)
+#
+# def getLikedWorkouts(request):
+#     json_userId = json.loads(request.body.decode("utf_8"))
+#     userId = json_userId["userID"]
+#     liked = Workout.objects.filter(liked_workouts__liker_id=userId)
+#     listOfDictionaries = [ob.__dict__ for ob in liked]
+#     json_string = json.dumps(listOfDictionaries)
+#     return HttpResponse(json_string)
 
 @api_view(['POST'])
 def saveWorkout(request):
@@ -91,12 +91,13 @@ def completeWorkout(request):
     json_Workout = json.loads(request.body.decode("utf_8"))
     userId = json_Workout["userID"]
     wID = json_Workout["workoutID"]
-    calories = int(json_Workout["calories"])
+    calories = json_Workout["calories"]
     newWorkout = WorkoutSession.create(id = json_Workout["workoutSessionID"],workout_id= wID,
                                        user_id=userId,
-                                       category= int(json_Workout["category"]),
+                                       category= json_Workout["category"],
                                        title = json_Workout["title"],
-                                       caption = json_Workout["caption"]
+                                       caption = json_Workout["caption"],
+
                                        )
     newWorkout.save()
     return HttpResponse("Success")
@@ -106,37 +107,71 @@ def completeWorkout(request):
 def publishWorkout(request):
     workout_json = json.loads(request.body.decode("utf_8"))
 
-    video_file = workout_json["video_file"]
-    # save video file to file system for later use
-
     new_workout = Workout.create (
-        id = workout_json["workout_id"],
-        title=workout_json["profile_picture_url"],
-        creater_id = workout_json["user_id"],
+        id = workout_json["id"],
+        title=workout_json["title"],
+        creator_id = workout_json["creatorID"],
         caption=workout_json["caption"],
         category=workout_json["category"],
+        start_time=workout_json["createdDate"]
     )
 
     new_workout.save()
     return HttpResponse("Success")
 
+@api_view(['POST'])
+def getWorkoutSession(request):
+    wsID = json.loads(request.body.decode("utf_8"))
+
+    # WorkoutSession
+    # {
+    #     id: String
+    #     workoutID: String
+    #     userID: String
+    #     startTime: Double
+    #     endTime: Double
+    #     caloriesBurned: Integer
+    # }
+
+    workout_session = WorkoutSession.objects.filter(id=wsID)
+    ws_dict = {"id": workout_session.id, "workoutID": workout_session.workout_id,
+               "userID": workout_session.userID, "startTime": workout_session.start_time,
+               "endTime": workout_session.end_time }
+    json_string = json.dumps(ws_dict)
+    return HttpResponse(json_string)
+
 
 @api_view(['POST'])
 def getWorkout(request):
-    json_workoutID = json.loads(request.body.decode("utf_8"))
-    wId = json_workoutID["workoutID"]
-    workout = Workout.objects.filter(id = wId)
-    listOfDictionaries = [ob.__dict__ for ob in workout]
-    json_string = json.dumps(listOfDictionaries)
+    wID = json.loads(request.body.decode("utf_8"))
+
+    # Workout
+    # {
+    #     id: String
+    #     creatorID: String
+    #
+    #     createdDate: Double // dates are stored as doubles
+    # title: String
+    # caption: String
+    # category: String
+    # }
+
+    workout = Workout.objects.filter(id = wID)
+    workout_dict = { "id" : workout.id, "creatorID": workout.creater_id,
+                            "title": workout.title, "caption": workout.caption,
+                            "createdDate": workout.createdDate, "category": workout.category
+                        }
+
+    json_string = json.dumps(workout_dict)
     return HttpResponse(json_string)
 
 
 def postVideo(request):
     js_workout_vid = json.loads(request.body)
-    filename = js_workout_vid[0]
-    binary_data = js_workout_vid[1]
-    path_name = 'path/videos/'
-    new_file = open(path_name + filename,'x')
+    filename = js_workout_vid["workoutID"]
+    binary_data = js_workout_vid["videoData"]
+    path_name = '/home/ec2-user/videos/'
+    new_file = open(path_name + filename,'w')
     new_file.write(binary_data)
     new_file.close()
     worked = True
@@ -158,9 +193,13 @@ def postVideo(request):
 
 
 def downloadVideo(request):
-    js_workout = json.loads(request.body)
+    file_name = json.loads(request.body)
+    path_name = '/home/ec2-user/videos/'
+    new_file = open(path_name + file_name,'r')
+    binary_data = new_file.read()
+    new_file.close()
 
-    pathname = 'path/videos/'
+    return HttpResponse(binary_data)
 
 
 

@@ -7,6 +7,7 @@ from .user import User
 from .user import following
 from .user import Workout
 from .user import WorkoutSession
+from .workout_endpoints import getLikedWorkouts
 from django.core.files import File
 from django.http import HttpResponse
 
@@ -20,14 +21,17 @@ def update_user(request):
     user = User.objects.filter(id = user_id)
     user.height_in_inches = user_info["inches"]
     user.sex = user_info["sex"]
-    # user.profilePicture = user_login["profilePicture"]
+    # user.profilePicture = user_login["profilePictu
+
+    # save profile picture
     profile = user_info["profilePicture"]
     text_file = open("/home/ec2-user/photos/" + user_info["id"], "w")
     text_file.write(profile)
     text_file.close()
+
     user.username = user_info["username"]
     user.bio = user_info["shortBiography"]
-    #save profle picture
+
     user.save()
 
 
@@ -73,11 +77,13 @@ def follow_user(request):
 def get_followers(username): # pass in user name
     people_followers = User.models.filter(followings__follower = username).values("id")
     # answers.values_list('id', flat=True)
+
     follower_ids = people_followers.values_list('id', flat= True)
     return follower_ids
 def get_followings(username):
-    people_following = User.models.filter(followings__following=username)
-    return people_following
+    people_following = User.models.filter(followings__following=username).values("id")
+    follower_ids = people_following.values_list('id', flat=True)
+    return follower_ids
 
 def get_user_preview(request):
     user_id = json.loads(request.body.decode("utf_8"))
@@ -89,12 +95,13 @@ def get_user_preview(request):
     user = User.objects.filter(id=user_id)
     user_name = user.username
     bio = user.bio
-    published_workouts = list(Workout.objects.filter(user__creater_id=user_id))
-    sessionIDs = list(WorkoutSession.objects.filter(user__user_id=user_id))
+    published_workouts = Workout.objects.filter(user__creater_id=user_id).values("id").values_list('id', flat = True)
+    sessionIDs = WorkoutSession.objects.filter(user__user_id=user_id).values("id").values_list('id', flat = True)
     followers = get_followers(user_name)
-    followings = list(get_followings(user_name))
-    items = { "id":user_id, "user_name ": user_name, "shortBiography":bio,
-              "profilePicture":pic, "followers":followers,"followings":followings ,
+    followings = get_followings(user_name)
+    liked = getLikedWorkouts
+    items = { "id":user_id, "username ": user_name, "shortBiography":bio,
+              "profilePicture":pic, "followers": followers,"followings":followings ,
               "sessionIDs":sessionIDs ,"publishedWorkoutIDs":published_workouts}
     json_string = json.dumps(items)
     return HttpResponse(json_string)
@@ -114,32 +121,9 @@ def get_user_preview(request):
     #     publishedWorkoutIDs: [String]
     # }
 
-
-
-
-
-def retrieve_user_profile_pic(request):
-    pass
-
 # Create your views here.
 @api_view(['POST'])
 def user_login(request):
-    # User
-    # {
-    #     "id": String,
-    #     "inches": Integer,
-    #     "sex": String,
-    #     "profilePicture": String,
-    #     "password": String,
-    #     "likedWorkoutIDs": [String],
-    #     "publishedWorkoutIDs": [String],
-    #     "pounds": Int
-    #     "username": String,
-    #     "followingIDs": [String],
-    #     "sessionIDs": [String],
-    #     "shortBiography": String
-    # }
-
     login_json = json.loads(request.body.decode("utf_8"))
 
     username = login_json["username"]
@@ -161,12 +145,29 @@ def user_login(request):
             user_id = user.id
             user_name = user.username
             bio = user.bio
-            published_workouts = list(Workout.objects.filter(user__creater_id=user_id))
-            sessionIDs = list(WorkoutSession.objects.filter(user__user_id=user_id))
-            items = {"id": user_id, "user_name ": user_name, "shortBiography": bio,
+            published_workouts = Workout.objects.filter(user__creater_id=user_id).values("id").values_list('id', flat = True)
+            sessionIDs = WorkoutSession.objects.filter(user__user_id=user_id).values("id").values_list('id', flat = True)
+
+            # User
+            # {
+            #     "id": String,
+            #     "inches": Integer,
+            #     "sex": String,
+            #     "profilePicture": String,
+            #     "password": String,
+            #     "pounds": Int
+            #     "username": String,
+            #     "shortBiography": String
+            #     "likedWorkoutIDs": [String],
+            #     "publishedWorkoutIDs": [String],
+            #     "followingIDs": [String],
+            #     "sessionIDs": [String],
+            # }
+
+            items = {"id": user_id, "username ": user_name, "shortBiography": bio,
                      "profilePicture": pic, "sessionIDs": sessionIDs, "publishedWorkoutIDs": published_workouts}
             json_string = json.dumps(items)
-            return Response(json_string)
+            return HttpResponse(json_string)
         else:
             return HttpResponse("badpassword")
     # Else the username doesn't exist

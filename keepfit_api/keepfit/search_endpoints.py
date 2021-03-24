@@ -18,42 +18,79 @@ import json
 def searchCategory(request):
     name_json = json.loads(request.body.decode("utf_8"))
     type = name_json["category"]
-    categories = list(Workout.objects.filter(category=type))
+    categories = Workout.objects.filter(category=type)
 
-    #convert to json
-    listOfDictionaries = [ob.__dict__ for ob in categories]
+    listOfDictionaries = []
+    for workout in categories:
+        listOfDictionaries.append({"id": workout.id, "creatorID": workout.creater_id,
+                                   "title": workout.title, "caption": workout.caption,
+                                   "createdDate": workout.createdDate, "category": workout.category
+                                   })
+
     json_string = json.dumps(listOfDictionaries)
 
     return HttpResponse(json_string)
-    #https://pythonexamples.org/python-list-to-json/#3
+    # https://pythonexamples.org/python-list-to-json/#3
 
 
 @api_view(['POST'])
 def searchUsers(request):
-    name_json = json.loads(request.body.decode("utf_8"))
-    name = name_json["username"] #name is now a string of the sent username
-    users = list(User.objects.filter(username=name))
-    # If the username exists
-    listOfDictionaries = [ob.__dict__ for ob in users]
-    json_string = json.dumps(listOfDictionaries)
-    return HttpResponse(json_string)
+    name = json.loads(request.body.decode("utf_8"))
+    # name is now a string of the sent username
+    users = User.objects.filter(username__startswith=name)
 
-@api_view(['POST'])
-def searchWorkouts(request):
-    name_json = json.loads(request.body.decode("utf_8"))
-    title_ = name_json["workout"]
-    workout = Workout.objects.filter(title=title_)
-    dict = [ob.__dict__ for ob in workout]
-    json_string = json.dumps(dict)
+    # UserPreview
+    # {
+    #     id: String
+    #     username: String
+    #
+    #     shortBiography: String
+    #
+    #     profilePicture: String
+    #
+    #     sessionIDs: [String]
+    #     likedWorkoutIDs: [String]
+    #     publishedWorkoutIDs: [String]
+    # }
 
-    return HttpResponse(json_string)
+    listOfDictionaries = []
+    for user in users:
+        text_file = open("/home/ec2-user/photos/" + user.id, "r")
+        pic = text_file.read()
+        text_file.close()
 
-#
-#
-#
-#
-#
-#
-#
-#
-#
+        published_workouts = Workout.objects.filter(user__creater_id=user_id).values("id").values_list('id', flat=True)
+        sessionIDs = WorkoutSession.objects.filter(user__user_id=user_id).values("id").values_list('id', flat=True)
+
+        listOfDictionaries.append({"id": user.id, "username": user.username,
+                                   "shortBiography": user.shortBiography, "profilePicture": pic,
+                                   "sessionIDs":, "likedWorkoutsIDs":,
+        "publishedWorkoutIDs": published
+        })
+
+        json_string = json.dumps(listOfDictionaries)
+        return HttpResponse(json_string)
+
+    @api_view(['POST'])
+    def searchWorkouts(request):
+        name_json = json.loads(request.body.decode("utf_8"))
+        title_ = name_json["workout"]
+        workout = Workout.objects.filter(title__startswith=title_)
+
+        listOfDictionaries = []
+        for w in workout:
+            listOfDictionaries.append({})
+
+        json_string = json.dumps(dict)
+
+        return HttpResponse(json_string)
+
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
