@@ -95,7 +95,7 @@ def get_user_preview(request):
     user = User.objects.filter(id=user_id)
     user_name = user.username
     bio = user.bio
-    published_workouts = Workout.objects.filter(user__creater_id=user_id).values("id").values_list('id', flat = True)
+    published_workouts = Workout.objects.filter(user__creator_id=user_id).values("id").values_list('id', flat = True)
     sessionIDs = WorkoutSession.objects.filter(user__user_id=user_id).values("id").values_list('id', flat = True)
     followers = get_followers(user_name)
     followings = get_followings(user_name)
@@ -128,6 +128,7 @@ def get_user_preview(request):
 @api_view(['POST'])
 def user_login(request):
     login_json = json.loads(request.body.decode("utf_8"))
+    print(login_json)
 
     username = login_json["username"]
     password = login_json["password"]
@@ -148,7 +149,7 @@ def user_login(request):
             user_id = user.id
             user_name = user.username
             bio = user.bio
-            published_workouts = Workout.objects.filter(user__creater_id=user_id).values("id").values_list('id', flat = True)
+            published_workouts = Workout.objects.filter(user__creator_id=user_id).values("id").values_list('id', flat = True)
             sessionIDs = WorkoutSession.objects.filter(user__user_id=user_id).values("id").values_list('id', flat = True)
 
             # User
