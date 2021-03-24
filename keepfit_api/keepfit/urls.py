@@ -19,12 +19,16 @@ urlpatterns = [
     path('searchUsers/',search_endpoints.searchUsers),
     path('getSavedWorkouts/', workout_endpoints.getSavedWorkouts),
     path('getCompletedWorkouts/', workout_endpoints.getCompletedWorkouts),
+    path('getLikedWorkouts',workout_endpoints.getLikedWorkouts ),
     path('saveWorkout/', workout_endpoints.saveWorkout),
+    path('likeWorkout/', workout_endpoints.likeWorkout),
+    path('completeWorkout/', workout_endpoints.completeWorkout),
     path('publishWorkout/',workout_endpoints.publishWorkout),
     path('getWorkout/',workout_endpoints.getWorkout),
-    path('completedWorkout/',workout_endpoints.completedWorkout),
     path('downloadVideo/', workout_endpoints.downloadVideo),
     #path('videos/')
+
+
     #path('pics',)
 ]
 # getUserPreview(id: String) -> UserPreview

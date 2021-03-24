@@ -74,32 +74,31 @@ def getLikedWorkouts(request):
 @api_view(['POST'])
 def saveWorkout(request):
     # assume workout Id and User ID passed in
-
     json_Workout = json.loads(request.body.decode("utf_8"))
     userId = json_Workout["userID"]
     wID = json_Workout["workoutID"]
-    newWorkout = savedWorkout.create(saver_id = userId, workoutID = wID)
+    newWorkout = savedWorkout.create(saver_id = userId, workout_id = wID)
     newWorkout.save()
     return Response("Success")
 
 
 @api_view(['POST'])
-def likedWorkout(request):
+def likeWorkout(request):
     # assume workout Id and User ID passed in
     json_Workout = json.loads(request.body.decode("utf_8"))
     userId = json_Workout["userID"]
     wID = json_Workout["workoutID"]
-    newWorkout = likedWorkout.create(liker_id=userId, workoutID=wID)
+    newWorkout = likedWorkout.create(liker_id=userId, workout_id=wID)
     newWorkout.save()
     return Response("Success")
 
 @api_view(['POST'])
-def completedWorkout(request):
+def completeWorkout(request):
     # assume workout Id and User ID passed in
     json_Workout = json.loads(request.body.decode("utf_8"))
     userId = json_Workout["userID"]
     wID = json_Workout["workoutID"]
-    newWorkout = completedWorkout.create(completer_id=userId, workoutID=wID)
+    newWorkout = completedWorkout.create(completer_id=userId, workout_id=wID)
     newWorkout.save()
     return Response("Success")
 
@@ -132,11 +131,6 @@ def getWorkout(request):
     json_string = json.dumps(listOfDictionaries)
     return Response(json_string)
 
-@api_view(['POST'])
-def completedWorkout(request):
-    js_workout_sess = json.loads(request.body.decode("utf_8"))
-
-    pass
 
 def postVideo(request):
     js_workout_vid = json.loads(request.body)

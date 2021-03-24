@@ -33,18 +33,30 @@ def update_user(request):
 
 
 def reset_password(request):
-    pass
+    user_info = json.loads(request.body.decode("utf_8"))
+    username =  user_info["username"]
+    old_password = user_info["old_password"]
+    new_password = user_info["new_password"]
+    users = User.objects.filter(username=username)
+    if(len(users) == 1):
+        user = users[0]
+        if(old_password == user.password):
+            user.password = new_password
+            return Response("Success")
+        else:
+            return Response("notmatching")
+
 
 def follow_user(request):
     follow_json = json.loads(request.body.decode("utf_8"))
     follower = follow_json["followerID"] # username of the person following someone
     following = follow_json["followingID"] # person they want to follow
-    user = User.objects.filter(user_name = follower)
-    user2 = User.objects.filter(user_name= following)
+    user = User.objects.filter(username = follower)
+    user2 = User.objects.filter(username= following)
     f = following(follower = user, following = user2)
     f.save()
-    if(len(following.objects.filter(user_name = follower)) > 0
-            and len(following.objects.filter(user_name = following)) > 0):
+    if(len(following.objects.filter(username = follower)) > 0
+            and len(following.objects.filter(username = following)) > 0):
         return Response("Success")
     else:
         return Response("Failure")
@@ -79,7 +91,7 @@ def get_user_preview(request):
     # }
 
 
-    pass
+
 def get_followings(request): # pass in user name
     follow_json = json.loads(request.body.decode("utf_8")) # to get who is a
     follower = follow_json[0]           #user is following
