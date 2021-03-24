@@ -150,6 +150,7 @@ def user_login(request):
             user_name = user.username
             bio = user.bio
             published_workouts = Workout.objects.filter(creator_id=user_id).values("id").values_list('id', flat = True)
+
             sessionIDs = WorkoutSession.objects.filter(user_id=user_id).values("id").values_list('id', flat = True)
 
             # User
@@ -170,6 +171,7 @@ def user_login(request):
 
             items = {"id": user_id, "username ": user_name, "shortBiography": bio,
                      "profilePicture": pic, "sessionIDs": sessionIDs, "publishedWorkoutIDs": published_workouts}
+            print (items + " <--items")
             json_string = json.dumps(items)
             return HttpResponse(json_string)
         else:
