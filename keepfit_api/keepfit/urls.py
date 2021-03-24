@@ -6,7 +6,6 @@ from . import user_endpoints
 from . import search_endpoints
 from . import workout_endpoints
 
-
 def test_server(request):
     return HttpResponse("server is working")
 
