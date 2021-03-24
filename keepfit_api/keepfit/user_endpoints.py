@@ -171,7 +171,8 @@ def user_login(request):
 
             items = {"id": user_id, "username ": user_name, "shortBiography": bio,
                      "profilePicture": pic, "sessionIDs": sessionIDs, "publishedWorkoutIDs": published_workouts}
-            print(items)
+            print(published_workouts)
+            print(sessionIDs)
             json_string = json.dumps(items)
             return HttpResponse(json_string)
         else:
