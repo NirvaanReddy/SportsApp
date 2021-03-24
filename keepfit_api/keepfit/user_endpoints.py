@@ -149,8 +149,8 @@ def user_login(request):
             user_id = user.id
             user_name = user.username
             bio = user.bio
-            published_workouts = Workout.objects.filter(user__creator_id=user_id).values("id").values_list('id', flat = True)
-            sessionIDs = WorkoutSession.objects.filter(user__user_id=user_id).values("id").values_list('id', flat = True)
+            published_workouts = Workout.objects.filter(creator_id=user_id).values("id").values_list('id', flat = True)
+            sessionIDs = WorkoutSession.objects.filter(user_id=user_id).values("id").values_list('id', flat = True)
 
             # User
             # {
