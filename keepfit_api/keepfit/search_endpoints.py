@@ -16,8 +16,8 @@ import json
 
 @api_view(['POST'])
 def searchCategory(request):
-    name_json = json.loads(request.body.decode("utf_8"))
-    type = name_json["category"]
+    type = json.loads(request.body.decode("utf_8"))
+    print(type)
     categories = Workout.objects.filter(category=type)
 
     listOfDictionaries = []
