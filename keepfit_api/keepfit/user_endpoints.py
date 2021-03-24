@@ -60,6 +60,18 @@ def follow_user(request):
         return Response("Success")
     else:
         return Response("Failure")
+
+def get_followers(username): # pass in user name
+    people_followers = User.models.filter(followings__follower = username)
+    listOfDictionaries = [ob.__dict__ for ob in people_followers]
+    json_string = json.dumps(listOfDictionaries)
+    return Response(json_string)
+def get_followings(username):
+    people_following = User.models.filter(followings__following=username)
+    listOfDictionaries = [ob.__dict__ for ob in people_following]
+    json_string = json.dumps(listOfDictionaries)
+    return Response(json_string)
+
 def get_user_preview(request):
     user_info = json.loads(request.body.decode("utf_8"))
 
@@ -70,8 +82,11 @@ def get_user_preview(request):
     pic = user.profilePicture
     published_workouts = list(Workout.objects.filter(user__creater_id = user_id ))
     sessionIDs = list(WorkoutSession.objects.filter(user__user_id = user_id))
+    followers = get_followers(user_name)
+    followings = get_followings(user_name)
     items = { "id":user_id, "user_name ": user_name, "shortBiography":bio,
-              "profilePicture":pic,"sessionIDs":sessionIDs ,"publishedWorkoutIDs":published_workouts}
+              "profilePicture":pic, "followers":followers,"followings":followings ,
+              "sessionIDs":sessionIDs ,"publishedWorkoutIDs":published_workouts}
     json_string = json.dumps(items)
     return Response(json_string)
 
@@ -92,13 +107,7 @@ def get_user_preview(request):
 
 
 
-def get_followings(request): # pass in user name
-    follow_json = json.loads(request.body.decode("utf_8")) # to get who is a
-    follower = follow_json[0]           #user is following
-    people_following = following.models.filter(user__username = follower)
-    listOfDictionaries = [ob.__dict__ for ob in people_following]
-    json_string = json.dumps(listOfDictionaries)
-    return Response(json_string)
+
 
 def retrieve_user_profile_pic(request):
     pass

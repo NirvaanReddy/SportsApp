@@ -55,14 +55,7 @@ def getCompletedWorkouts(request):
     listOfDictionaries = [ob.__dict__ for ob in completedWorkouts]
     json_string = json.dumps(listOfDictionaries)
     return Response(json_string)
-    # user = User.objects.filter(id=userId)
-    # completedWorkouts = user.completedWorkouts.all()
-    # if len(completedWorkouts) > 0:
-    #     listOfDictionaries = [ob.__dict__ for ob in completedWorkouts]
-    #     json_string = json.dumps(listOfDictionaries)
-    #     return Response(json_string)
-    # else:
-    #     return Response("Saved some workouts")
+
 def getLikedWorkouts(request):
     json_userId = json.loads(request.body.decode("utf_8"))
     userId = json_userId["userID"]
