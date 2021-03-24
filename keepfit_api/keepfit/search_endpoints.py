@@ -22,7 +22,7 @@ def searchCategory(request):
 
     listOfDictionaries = []
     for workout in categories:
-        listOfDictionaries.append({"id": workout.id, "creatorID": workout.creater_id,
+        listOfDictionaries.append({"id": workout.id, "creatorID": workout.creator_id,
                                    "title": workout.title, "caption": workout.caption,
                                    "createdDate": workout.createdDate, "category": workout.category
                                    })
@@ -59,7 +59,7 @@ def searchUsers(request):
         pic = text_file.read()
         text_file.close()
 
-        published_workouts = Workout.objects.filter(user__creater_id=user.id).values("id").values_list('id', flat=True)
+        published_workouts = Workout.objects.filter(user__creator_id=user.id).values("id").values_list('id', flat=True)
         sessionIDs = WorkoutSession.objects.filter(user__user_id=user.id).values("id").values_list('id', flat=True)
         likedWorkouts = Workout.objects.filter(liked_workouts__liker_id=user.id).values("id").values_list('id', flat = True)
         listOfDictionaries.append({"id": user.id, "username": user.username,
@@ -79,7 +79,7 @@ def searchWorkouts(request):
 
     listOfDictionaries = []
     for workout in workouts:
-        listOfDictionaries.append({"id": workout.id, "creatorID": workout.creater_id,
+        listOfDictionaries.append({"id": workout.id, "creatorID": workout.creator_id,
                                        "title": workout.title, "caption": workout.caption,
                                        "createdDate": workout.createdDate, "category": workout.category
                                     })

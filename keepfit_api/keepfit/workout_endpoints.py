@@ -157,7 +157,7 @@ def getWorkout(request):
     # }
 
     workout = Workout.objects.filter(id = wID)
-    workout_dict = { "id" : workout.id, "creatorID": workout.creater_id,
+    workout_dict = { "id" : workout.id, "creatorID": workout.creator_id,
                             "title": workout.title, "caption": workout.caption,
                             "createdDate": workout.createdDate, "category": workout.category
                         }
