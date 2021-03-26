@@ -52,15 +52,15 @@ class Workout(models.Model):
         db_table = 'workout'
 
 
-class savedWorkout(models.Model):
-    saver_id = models.ForeignKey('User', on_delete=models.CASCADE)
-    workout_id = models.ForeignKey('Workout', on_delete=models.CASCADE)
+# class SavedWorkout(models.Model):
+#     saver_id = models.ForeignKey('User', on_delete=models.CASCADE)
+#     workout_id = models.ForeignKey('Workout', on_delete=models.CASCADE)
+#
+#     class Meta:
+#         db_table = 'saved_workouts'
 
-    class Meta:
-        db_table = 'saved_workouts'
 
-
-class likedWorkout(models.Model):
+class LikedWorkout(models.Model):
     liker_id = models.ForeignKey('User', on_delete=models.CASCADE)
     workout_id = models.ForeignKey('Workout', on_delete=models.CASCADE)
 
@@ -68,12 +68,12 @@ class likedWorkout(models.Model):
         db_table = 'liked_workouts'
 
 
-class completedWorkout(models.Model):
-    completer_id = models.ForeignKey('User', on_delete=models.CASCADE)
-    workout_id = models.ForeignKey('Workout', on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'completed_workouts'
+# class CompletedWorkout(models.Model):
+#     completer_id = models.ForeignKey('User', on_delete=models.CASCADE)
+#     workout_id = models.ForeignKey('Workout', on_delete=models.CASCADE)
+#
+#     class Meta:
+#         db_table = 'completed_workouts'
 
 
 class Following(models.Model):

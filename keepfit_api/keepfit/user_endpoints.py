@@ -15,97 +15,132 @@ import base64
 import os
 import json
 
+photos_path = "/Users/samdonovan/Desktop/TempPics/"
+
+
+# photos_path = "/home/ec2-user/photos/"
+
+# sends user object which overwrites the user with the same ID
+# reassign everything but password
+@api_view(['POST'])
 def update_user(request):
     user_info = json.loads(request.body.decode("utf_8"))
     user_id = user_info["id"]
-    user = User.objects.filter(id = user_id)
+    user = User.objects.get(id=user_id)
+
+    user.username = user_info["username"]
+
+    user.bio = user_info["shortBiography"]
+    user.weight = user_info["pounds"]
     user.height_in_inches = user_info["inches"]
     user.sex = user_info["sex"]
-    # user.profilePicture = user_login["profilePictu
 
     # save profile picture
     profile = user_info["profilePicture"]
-    text_file = open("/home/ec2-user/photos/" + user_info["id"], "w")
+    text_file = open(photos_path + user_info["id"], "w")
     text_file.write(profile)
     text_file.close()
 
-    user.username = user_info["username"]
-    user.bio = user_info["shortBiography"]
-
     user.save()
 
-
-
     return HttpResponse("Updated")
-    #
-    # sending new_user object same ID as existing user
-    # reassign everythin but password
-    # create user from new info
-    # update
-    #
 
 
+@api_view(['POST'])
 def reset_password(request):
     user_info = json.loads(request.body.decode("utf_8"))
-    username =  user_info["username"]
+    username = user_info["username"]
     old_password = user_info["old_password"]
     new_password = user_info["new_password"]
     users = User.objects.filter(username=username)
-    if(len(users) == 1):
+    if (len(users) == 1):
         user = users[0]
-        if(old_password == user.password):
+        if (old_password == user.password):
             user.password = new_password
             return HttpResponse("Success")
         else:
             return HttpResponse("notmatching")
 
 
+@api_view(['POST'])
 def follow_user(request):
     follow_json = json.loads(request.body.decode("utf_8"))
-    follower = follow_json["followerID"] # username of the person following someone
-    following = follow_json["followingID"] # person they want to follow
-    user = User.objects.filter(username = follower)
-    user2 = User.objects.filter(username= following)
-    f = Following(follower = user, following = user2)
+    follower = follow_json["followerID"]  # username of the person following someone
+    following = follow_json["followingID"]  # person they want to follow
+
+    user = User.objects.get(id=follower)
+    user2 = User.objects.get(id=following)
+
+    f = Following.objects.create(follower_id=follower, following_id=following)
     f.save()
-    if(len(Following.objects.filter(username = follower)) > 0
-            and len(Following.objects.filter(username = following)) > 0):
-        return HttpResponse("Success")
-    else:
-        return HttpResponse("Failure")
 
-def get_followers(username): # pass in user name
-    people_followers = User.models.filter(followings__follower = username).values("id")
-    # answers.values_list('id', flat=True)
+    # add below code back when front end start's checking responses
+    # if (len(Following.objects.filter(username=follower)) > 0
+    #         and len(Following.objects.filter(username=following)) > 0):
+    #     return HttpResponse("Success")
+    # else:
+    #     return HttpResponse("Failure")
+    return HttpResponse()
 
-    follower_ids = people_followers.values_list('id', flat= True)
-    return follower_ids
-def get_followings(username):
-    people_following = User.models.filter(followings__following=username).values("id")
-    follower_ids = people_following.values_list('id', flat=True)
-    return follower_ids
+@api_view(['POST'])
+def unfollow_user(request):
+    follow_json = json.loads(request.body.decode("utf_8"))
+    follower = follow_json["followerID"]  # username of the person following someone
+    following = follow_json["followingID"]  # person they want to follow
 
+    f = Following.objects.get(follower_id=follower, following_id=following)
+    f.delete()
+
+    # add below code back when front end start's checking responses
+    # if (len(Following.objects.filter(username=follower)) > 0
+    #         and len(Following.objects.filter(username=following)) > 0):
+    #     return HttpResponse("Success")
+    # else:
+    #     return HttpResponse("Failure")
+    return HttpResponse()
+#
+# @api_view(['POST'])
+# def get_followers(username): # pass in user name
+#     people_followers = User.models.filter(followings__follower = username).values("id")
+#     # answers.values_list('id', flat=True)
+#
+#     follower_ids = people_followers.values_list('id', flat= True)
+#     return follower_ids
+#
+# @api_view(['POST'])
+# def get_followings(username):
+#     people_following = User.models.filter(followings__following=username).values("id")
+#     follower_ids = people_following.values_list('id', flat=True)
+#     return follower_ids
+
+# gets a user preview
+@api_view(['POST'])
 def get_user_preview(request):
     user_id = json.loads(request.body.decode("utf_8"))
 
-    text_file = open("/home/ec2-user/photos/" + user_id, "r")
+    text_file = open(photos_path + user_id, "r")
     pic = text_file.read()
     text_file.close()
 
-    user = User.objects.filter(id=user_id)
-    user_name = user.username
-    bio = user.bio
-    published_workouts = Workout.objects.filter(user__creator_id=user_id).values("id").values_list('id', flat = True)
-    sessionIDs = WorkoutSession.objects.filter(user__user_id=user_id).values("id").values_list('id', flat = True)
-    followers = get_followers(user_name)
-    followings = get_followings(user_name)
+    user = User.objects.get(id=user_id)
+
+    # followers = get_followers(user_name)
+    # followings = get_followings(user_name)
+
+    sessionIDs = list(WorkoutSession.objects.filter(user_id__id=user_id).values_list('id', flat=True))
+    publishedWorkoutIDs = list(Workout.objects.filter(creator_id__id=user_id).values_list('id', flat=True))
 
     # liked == [String] where each string is an id of a workout the user liked
-    likedWorkouts = Workout.objects.filter(liked_workouts__liker_id=user.id).values("id").values_list('id', flat = True)
-    items = { "id":user_id, "username ": user_name, "shortBiography":bio,
-              "profilePicture":pic, "followers": followers,"followings":followings ,
-              "sessionIDs":sessionIDs ,"publishedWorkoutIDs":published_workouts,
-              "likedWorkoutIDs":likedWorkouts}
+    likedWorkouts = list(LikedWorkout.objects.filter(liker_id__id=user_id).values_list('workout_id__id', flat=True))
+
+    items = {"id": user_id,
+             "username": user.username,
+             "shortBiography": user.bio,
+             "profilePicture": pic,
+             "sessionIDs": sessionIDs,
+             "publishedWorkoutIDs": publishedWorkoutIDs,
+             "likedWorkoutIDs": likedWorkouts
+             }
     json_string = json.dumps(items)
     return HttpResponse(json_string)
 
@@ -124,11 +159,12 @@ def get_user_preview(request):
     #     publishedWorkoutIDs: [String]
     # }
 
-# Create your views here.
+
+# takes in username/password, sends back user
 @api_view(['POST'])
 def user_login(request):
     login_json = json.loads(request.body.decode("utf_8"))
-    print(login_json)
+    # print(login_json)
 
     username = login_json["username"]
     password = login_json["password"]
@@ -136,23 +172,28 @@ def user_login(request):
     users = User.objects.filter(username=username)
     # If the username exists
     # people I'm following
-    #people who follow me
+    # people who follow me
     if len(users) == 1:
         user = users[0]
         # If the password matches
         if password == user.password:
 
-            text_file = open("/home/ec2-user/photos/" + user.id, "r")
+            text_file = open(photos_path + user.id, "r")
             pic = text_file.read()
             text_file.close()
 
             user_id = user.id
             user_name = user.username
             bio = user.bio
-            published_workouts = Workout.objects.filter(creator_id=user_id).values("id").values_list('id', flat = True)
-            likedWorkoutIDs_ = likedWorkout.objects.filter(liker_id=user_id).values("workout_id").values_list('workout_id', flat = True)
-            followIDs =  Following.objects.filter(follower__id=user_id).values("following__id").values_list('following__id', flat = True)
-            sessionIDs = WorkoutSession.objects.filter(user_id=user_id).values("id").values_list('id', flat = True)
+
+            published_workouts = list(Workout.objects.filter(creator_id__id=user_id).values_list('id', flat=True))
+            likedWorkoutIDs = list(
+                LikedWorkout.objects.filter(liker_id__id=user_id).values_list('workout_id__id', flat=True))
+            followIDs = Following.objects.filter(follower__id=user_id).values("following__id").values_list(
+                'following__id', flat=True)
+            sessionIDs = list(WorkoutSession.objects.filter(user_id__id=user_id).values_list('id', flat=True))
+
+            print(likedWorkoutIDs)
 
             # User
             # {
@@ -170,11 +211,13 @@ def user_login(request):
             #     "sessionIDs": [String],
             # }
 
-            items = {"id": user_id, "username": user_name, "shortBiography": bio,
+            items = {"id": user_id,
+                     "username": user_name,
+                     "shortBiography": bio,
                      "profilePicture": pic,
                      "sessionIDs": list(sessionIDs),
                      "publishedWorkoutIDs": list(published_workouts),
-                     "likedWorkoutIDs": list(likedWorkoutIDs_),
+                     "likedWorkoutIDs": list(likedWorkoutIDs),
                      "sex": user.sex,
                      "followingIDs": list(followIDs),
                      "pounds": user.weight,
@@ -202,7 +245,7 @@ def create_user(request):
     query_results = User.objects.filter(username=new_user_json["username"])
     if len(query_results) == 0:
         profile = new_user_json["profilePicture"]
-        text_file = open("/home/ec2-user/photos/" + new_user_json["id"], "w")
+        text_file = open(photos_path + new_user_json["id"], "w")
         text_file.write(profile)
         text_file.close()
         new_user = User.objects.create(
@@ -213,11 +256,10 @@ def create_user(request):
             bio=new_user_json["shortBiography"],
             username=new_user_json["username"],
             password=new_user_json["password"],
-            #birth_date=new_user_json["birth_date"]
+            # birth_date=new_user_json["birth_date"]
         )
 
         new_user.save()
-
 
         # Create the profile picture
         # _id = new_user.pk
@@ -232,4 +274,3 @@ def create_user(request):
         return HttpResponse("true")
     else:
         return HttpResponse("false")
-

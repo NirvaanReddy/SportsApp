@@ -5,9 +5,8 @@ from django.db import models
 from .s import *
 from .user import *
 from django.core.files import File
-from .user import completedWorkout
-from django.core.files import File
 from django.http import HttpResponse
+from .user_endpoints import photos_path
 
 import base64
 import os
@@ -22,11 +21,12 @@ def searchCategory(request):
 
     listOfDictionaries = []
     for workout in categories:
-        listOfDictionaries.append({"id": workout.id, "creatorID": workout.creator_id,
+        listOfDictionaries.append({"id": workout.id, "creatorID": workout.creator_id_id,
                                    "title": workout.title, "caption": workout.caption,
-                                   "createdDate": workout.createdDate, "category": workout.category
+                                   "createdDate": workout.created_date, "category": workout.category
                                    })
 
+    print(listOfDictionaries)
     json_string = json.dumps(listOfDictionaries)
 
     return HttpResponse(json_string)
@@ -55,21 +55,28 @@ def searchUsers(request):
 
     listOfDictionaries = []
     for user in users:
-        text_file = open("/home/ec2-user/photos/" + user.id, "r")
+        text_file = open(photos_path + user.id, "r")
         pic = text_file.read()
         text_file.close()
 
-        published_workouts = Workout.objects.filter(user__creator_id=user.id).values("id").values_list('id', flat=True)
-        sessionIDs = WorkoutSession.objects.filter(user__user_id=user.id).values("id").values_list('id', flat=True)
-        likedWorkouts = Workout.objects.filter(liked_workouts__liker_id=user.id).values("id").values_list('id', flat = True)
-        listOfDictionaries.append({"id": user.id, "username": user.username,
-                                   "shortBiography": user.shortBiography, "profilePicture": pic,
-                                   "sessionIDs": sessionIDs, "likedWorkoutsIDs": likedWorkouts,
-                                    "publishedWorkoutIDs": published_workouts
-        })
+        sessionIDs = list(WorkoutSession.objects.filter(user_id__id=user.id).values_list('id', flat=True))
+        publishedWorkoutIDs = list(Workout.objects.filter(creator_id__id=user.id).values_list('id', flat=True))
 
-        json_string = json.dumps(listOfDictionaries)
-        return HttpResponse(json_string)
+        # liked == [String] where each string is an id of a workout the user liked
+        likedWorkouts = list(LikedWorkout.objects.filter(liker_id__id=user.id).values_list('workout_id__id', flat=True))
+
+        listOfDictionaries.append({"id": user.id,
+                                   "username": user.username,
+                                   "shortBiography": user.bio,
+                                   "profilePicture": pic,
+                                   "sessionIDs": sessionIDs,
+                                   "publishedWorkoutIDs": publishedWorkoutIDs,
+                                   "likedWorkoutIDs": likedWorkouts
+                                   })
+    # print(listOfDictionaries)
+    json_string = json.dumps(listOfDictionaries)
+    return HttpResponse(json_string)
+
 
 @api_view(['POST'])
 def searchWorkouts(request):
@@ -79,12 +86,13 @@ def searchWorkouts(request):
 
     listOfDictionaries = []
     for workout in workouts:
-        listOfDictionaries.append({"id": workout.id, "creatorID": workout.creator_id,
-                                       "title": workout.title, "caption": workout.caption,
-                                       "createdDate": workout.createdDate, "category": workout.category
-                                    })
+        listOfDictionaries.append({"id": workout.id, "creatorID": workout.creator_id_id,
+                                   "title": workout.title, "caption": workout.caption,
+                                   "createdDate": workout.createdDate, "category": workout.category
+                                   })
 
-    json_string = json.dumps(dict)
+    print(listOfDictionaries)
+    json_string = json.dumps(listOfDictionaries)
 
     return HttpResponse(json_string)
 

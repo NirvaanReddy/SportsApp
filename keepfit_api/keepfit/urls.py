@@ -19,8 +19,9 @@ urlpatterns = [
     # path('getSavedWorkouts/', workout_endpoints.getSavedWorkouts),
     # path('getCompletedWorkouts/', workout_endpoints.getCompletedWorkouts),
     # path('getLikedWorkouts',workout_endpoints.getLikedWorkouts ),
-    path('saveWorkout/', workout_endpoints.saveWorkout),
+    # path('saveWorkout/', workout_endpoints.saveWorkout),
     path('likeWorkout/', workout_endpoints.likeWorkout),
+    path('unlikeWorkout/', workout_endpoints.unlikeWorkout),
     path('completeWorkout/', workout_endpoints.completeWorkout),
     path('publishWorkout/',workout_endpoints.publishWorkout),
     path('getWorkout/',workout_endpoints.getWorkout),
@@ -29,9 +30,10 @@ urlpatterns = [
     path('getUserPreview/', user_endpoints.get_user_preview),
     path('update/', user_endpoints.update_user),
     path('follow/', user_endpoints.follow_user),
+    path('unfollow/', user_endpoints.follow_user),
     path('getWorkout/', workout_endpoints.getWorkout),
     path('getWorkoutSession/', workout_endpoints.getWorkoutSession),
-    path('publishWorkoutSession/', workout_endpoints.completedWorkout),
+    # path('publishWorkoutSession/', workout_endpoints.completeWorkout),
     #path('videos/')
 
 
