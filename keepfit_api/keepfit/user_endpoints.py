@@ -15,10 +15,8 @@ import base64
 import os
 import json
 
-photos_path = "/Users/samdonovan/Desktop/TempPics/"
-
-
-# photos_path = "/home/ec2-user/photos/"
+# photos_path = "~/Desktop/TempPics/"
+photos_path = "/home/ec2-user/photos/"
 
 # sends user object which overwrites the user with the same ID
 # reassign everything but password
@@ -49,17 +47,17 @@ def update_user(request):
 @api_view(['POST'])
 def reset_password(request):
     user_info = json.loads(request.body.decode("utf_8"))
-    username = user_info["username"]
-    old_password = user_info["old_password"]
-    new_password = user_info["new_password"]
-    users = User.objects.filter(username=username)
+    id = user_info["id"]
+    old_password = user_info["oldPassword"]
+    new_password = user_info["newPassword"]
+    users = User.objects.filter(id=id)
     if (len(users) == 1):
         user = users[0]
         if (old_password == user.password):
             user.password = new_password
-            return HttpResponse("Success")
-        else:
-            return HttpResponse("notmatching")
+            user.save()
+            return HttpResponse("true")
+    return HttpResponse("false")
 
 
 @api_view(['POST'])

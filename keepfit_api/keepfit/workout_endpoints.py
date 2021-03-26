@@ -12,10 +12,8 @@ import os
 import json
 
 
-videos_path = "/Users/samdonovan/Desktop/TempVids/"
-
-
-# videos_path = "/home/ec2-user/videos/"
+# videos_path = "~/Desktop/TempVids/"
+videos_path = "/home/ec2-user/videos/"
 
 @api_view(['POST'])
 def likeWorkout(request):
