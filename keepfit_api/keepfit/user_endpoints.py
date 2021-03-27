@@ -254,10 +254,9 @@ def create_user(request):
             weight=new_user_json["pounds"],
             height_in_inches=new_user_json["inches"],
             bio=new_user_json["shortBiography"],
-            #birthday = new_user_json["birthday"],
+            birthday = new_user_json["birthday"],
             username=new_user_json["username"],
             password=new_user_json["password"],
-            # birth_date=new_user_json["birth_date"]
         )
 
         new_user.save()

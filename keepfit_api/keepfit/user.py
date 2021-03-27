@@ -16,7 +16,7 @@ class User(models.Model):
 
     username = models.CharField(max_length=255, unique=True)
     password = models.CharField(max_length=255)
-    #birthday = models.DateField(auto_now=False)
+    birthday = models.FloatField()
     bio = models.CharField(max_length=255)
 
     # following = models.ManyToManyField(User, symmetrical=False)
