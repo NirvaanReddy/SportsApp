@@ -34,5 +34,5 @@ class UserCreatedSuccesfully(TestCase):
 
     def test_createUserVerify(self):
         # to verify that we are correctly making users
-        user = User.objects.filter(username="jasonGomez")
+        user = User.objects.filter(username="username")
         self.assertEqual(1, len(user))
