@@ -158,7 +158,7 @@ def unfollow_user(request):
 
 
 # takes in username/password, sends back user
-@api_view(['POST'])
+
 def user_login(request):
     login_json = json.loads(request.body.decode("utf_8"))
     # print(login_json)
@@ -242,10 +242,10 @@ def create_user(request):
     # If the set is empty, create the user and the profile picture
     query_results = User.objects.filter(username=new_user_json["username"])
     if len(query_results) == 0:
-        profile = new_user_json["profilePicture"]
-        text_file = open(photos_path + new_user_json["id"], "w")
-        text_file.write(profile)
-        text_file.close()
+        # profile = new_user_json["profilePicture"]
+        # text_file = open(photos_path + new_user_json["id"], "w")
+        # text_file.write(profile)
+        # text_file.close()
         new_user = User.objects.create(
             id=new_user_json["id"],
             sex=new_user_json["sex"],
@@ -269,9 +269,8 @@ def create_user(request):
         #     user.profile_picture = new_image
         #     user.save()
 
-        return HttpResponse("true")
-    else:
-        return HttpResponse("false")
+
+
 
 @api_view(['POST'])
 def searchCategory(request):

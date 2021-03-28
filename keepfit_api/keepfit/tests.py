@@ -20,19 +20,33 @@ from .endpoints_for_testing import *
 class UserCreatedSuccesfully(TestCase):
 
     def setUp(self):
-        new_user = User.objects.create(
-            id="jasonGomez",
-            sex="Male",
-            weight=542,
-            height_in_inches=39,
-            bio="Insert Bio here",
-            birthday=300.23,
-            username="username",
-            password="password",
-        )
-        new_user.save()
+        items = {"id":"jasonGomez",
+        "sex":"Male",
+        "weight":542,
+        "height_in_inches":39,
+        "bio":"Insert Bio here",
+        "birthday":300.23,
+        "username":"username",
+        "password":"password"}
+        create_user(json.dumps(items))
 
     def test_createUserVerify(self):
         # to verify that we are correctly making users
         user = User.objects.filter(username="username")
         self.assertEqual(1, len(user))
+        print()
+
+
+class WorkoutCreatedSuccessfully(TestCase):
+    def setUp(self):
+        pass
+    def test_createWorkout(self):
+        pass
+
+class WorkoutSessionCreatedSuccessfully(TestCase):
+    def setUpClass(self):
+        pass
+    def test_createWS(self):
+        pass
+
+#
