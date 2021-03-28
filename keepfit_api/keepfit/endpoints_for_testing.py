@@ -233,7 +233,7 @@ def user_login(request):
         return HttpResponse("badusername")
 
 
-@api_view(['POST'])
+
 def create_user(new_user_json):
    # new_user_json = json.loads(request.body.decode("utf_8"))
     # serializer = UserSerializer(data=userJson)
@@ -272,7 +272,7 @@ def create_user(new_user_json):
 
 
 
-@api_view(['POST'])
+
 def searchCategory(request):
     type = json.loads(request.body.decode("utf_8"))
     print(type)
@@ -292,7 +292,7 @@ def searchCategory(request):
     # https://pythonexamples.org/python-list-to-json/#3
 
 
-@api_view(['POST'])
+
 def searchUsers(request):
     name = json.loads(request.body.decode("utf_8"))
     # name is now a string of the sent username
