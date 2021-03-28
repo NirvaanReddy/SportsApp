@@ -19,7 +19,7 @@ class UserCreatedSuccesfully(TestCase):
 
     def setUp(self):
         pass
-    def createUserVerify(self):
+    def test_createUserVerify(self):
         # to verify that we are correctly making users
         items = { "id": "whatever" ,"sex": "Male", "pounds":170,
                   "inches": 170, "shortBiography": "My name is Jason Gomez :)",
