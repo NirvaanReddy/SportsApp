@@ -88,7 +88,7 @@ def searchWorkouts(request):
     for workout in workouts:
         listOfDictionaries.append({"id": workout.id, "creatorID": workout.creator_id_id,
                                    "title": workout.title, "caption": workout.caption,
-                                   "createdDate": workout.createdDate, "category": workout.category
+                                   "createdDate": workout.created_date, "category": workout.category
                                    })
 
     print(listOfDictionaries)
