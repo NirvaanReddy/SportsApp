@@ -18,15 +18,19 @@ from .search_endpoints import *
 class UserCreatedSuccesfully(TestCase):
 
     def setUp(self):
-        pass
+        new_user = User.objects.create(
+            id="jasonGomez",
+            sex="Male",
+            weight=542,
+            height_in_inches=39,
+            bio="Insert Bio here",
+            birthday=300.23,
+            username="username",
+            password="password",
+        )
+        new_user.save()
+
     def test_createUserVerify(self):
         # to verify that we are correctly making users
-        items = { "id": "whatever" ,"sex": "Male", "pounds":170,
-                  "inches": 170, "shortBiography": "My name is Jason Gomez :)",
-                  "birthdate" : 2.3 , "username" : "jjjj" , "password": "stringstring"
-                  }
-        json_string = json.dumps(items)
-        x = HttpRequest(json_string)
-        result = create_user(HttpRequest(x))
-
-        self.assertEqual("Hello", 'The lion says "roar"')
+        user = User.objects.filter(username="jasonGomez")
+        self.assertEqual(1, len(user))
