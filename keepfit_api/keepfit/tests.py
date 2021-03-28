@@ -25,7 +25,7 @@ class UserCreatedSuccesfully(TestCase):
         "pounds":542,
         "height_in_inches":39,
         "bio":"Insert Bio here",
-        "birthday":300.23,
+        "birthdate":300.23,
         "username":"username",
         "password":"password"}
         create_user(items)
