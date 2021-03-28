@@ -358,7 +358,6 @@ def searchWorkouts(request):
 
 videos_path = "/home/ec2-user/videos/"
 
-@api_view(['POST'])
 def likeWorkout(request):
     # assume workout Id and User ID passed in
     json_Workout = json.loads(request.body.decode("utf_8"))
@@ -370,7 +369,6 @@ def likeWorkout(request):
     newWorkout.save()
     return HttpResponse("Success")
 
-@api_view(['POST'])
 def unlikeWorkout(request):
     # assume workout Id and User ID passed in
     json_Workout = json.loads(request.body.decode("utf_8"))
@@ -381,7 +379,6 @@ def unlikeWorkout(request):
     oldWorkout.delete()
     return HttpResponse("Success")
 
-@api_view(['POST'])
 def completeWorkout(request):
     # inputs WorkoutSession JSON
 
@@ -408,7 +405,6 @@ def completeWorkout(request):
     return HttpResponse("Success")
 
 
-@api_view(['POST'])
 def publishWorkout(request):
     workout_json = json.loads(request.body.decode("utf_8"))
 
@@ -437,7 +433,6 @@ def publishWorkout(request):
     return HttpResponse("Success")
 
 
-@api_view(['POST'])
 def getWorkoutSession(request):
     wsID = json.loads(request.body.decode("utf_8"))
 
@@ -463,7 +458,6 @@ def getWorkoutSession(request):
     return HttpResponse(json_string)
 
 
-@api_view(['POST'])
 def getWorkout(request):
     wID = json.loads(request.body.decode("utf_8"))
 
@@ -488,7 +482,6 @@ def getWorkout(request):
     return HttpResponse(json_string)
 
 
-@api_view(['POST'])
 def postVideo(request):
     js_workout_vid = json.loads(request.body)
     filename = js_workout_vid["workoutID"]
@@ -500,7 +493,7 @@ def postVideo(request):
     return HttpResponse()
 
 
-@api_view(['POST'])
+
 def downloadVideo(request):
     file_name = json.loads(request.body)
     new_file = open(videos_path + file_name, 'r')

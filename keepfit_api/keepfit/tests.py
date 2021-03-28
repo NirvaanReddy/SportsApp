@@ -14,7 +14,7 @@ from .user import *
 # from .user_endpoints import *
 # from .workout_endpoints import *
 # from .search_endpoints import *
-from endpoints_for_testing import *
+from .endpoints_for_testing import *
 
 
 class UserCreatedSuccesfully(TestCase):
