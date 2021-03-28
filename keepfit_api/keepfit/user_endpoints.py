@@ -258,7 +258,7 @@ def create_user(request):
             username=new_user_json["username"],
             password=new_user_json["password"],
         )
-
+        print("MAKE IT TO CREATE USER")
         new_user.save()
 
         # Create the profile picture
