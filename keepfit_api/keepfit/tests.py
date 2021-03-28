@@ -24,7 +24,7 @@ class UserCreatedSuccesfully(TestCase):
         "sex":"Male",
         "pounds":542,
         "inches":39,
-        "bio":"Insert Bio here",
+        "shortBiography":"Insert Bio here",
         "birthdate":300.23,
         "username":"username",
         "password":"password"}
