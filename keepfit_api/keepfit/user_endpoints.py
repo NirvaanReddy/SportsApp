@@ -32,7 +32,7 @@ def update_user(request):
     user.weight = user_info["pounds"]
     user.height_in_inches = user_info["inches"]
     user.sex = user_info["sex"]
-    user.birthday = user_info["birthday"]
+    user.birthday = user_info["birthdate"]
 
     # save profile picture
     profile = user_info["profilePicture"]
@@ -218,7 +218,7 @@ def user_login(request):
                      "publishedWorkoutIDs": list(published_workouts),
                      "likedWorkoutIDs": list(likedWorkoutIDs),
                      "sex": user.sex,
-                     "birthday": bday,
+                     "birthdate": bday,
                      "followingIDs": list(followIDs),
                      "pounds": user.weight,
                      "inches": user.height_in_inches
