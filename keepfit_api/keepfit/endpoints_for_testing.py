@@ -79,7 +79,7 @@ def follow_user(request):
     #     return HttpResponse("Failure")
     return HttpResponse()
 
-@api_view(['POST'])
+
 def unfollow_user(request):
     follow_json = json.loads(request.body.decode("utf_8"))
     follower = follow_json["followerID"]  # username of the person following someone
@@ -314,7 +314,7 @@ def searchUsers(request):
 
     listOfDictionaries = []
     for user in users:
-        text_file = open(photos_path + user.id, "r")
+       #
         pic = text_file.read()
         text_file.close()
 

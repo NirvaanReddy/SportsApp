@@ -22,7 +22,7 @@ class UserCreatedSuccesfully(TestCase):
     def setUp(self):
         items = {"id":"jasonGomez",
         "sex":"Male",
-        "weight":542,
+        "pounds":542,
         "height_in_inches":39,
         "bio":"Insert Bio here",
         "birthday":300.23,
