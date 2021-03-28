@@ -26,6 +26,7 @@ class UserCreatedSuccesfully(TestCase):
                   "birthdate" : 2.3 , "username" : "jjjj" , "password": "stringstring"
                   }
         json_string = json.dumps(items)
-        result = create_user(HttpRequest(json_string))
+        x = HttpRequest(json_string)
+        result = create_user(HttpRequest(x))
 
         self.assertEqual("Hello", 'The lion says "roar"')
