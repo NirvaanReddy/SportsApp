@@ -23,7 +23,7 @@ class UserCreatedSuccesfully(TestCase):
         items = {"id":"jasonGomez",
         "sex":"Male",
         "pounds":542,
-        "height_in_inches":39,
+        "inches":39,
         "bio":"Insert Bio here",
         "birthdate":300.23,
         "username":"username",
