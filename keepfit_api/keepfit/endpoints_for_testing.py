@@ -234,8 +234,8 @@ def user_login(request):
 
 
 @api_view(['POST'])
-def create_user(request):
-    new_user_json = json.loads(request.body.decode("utf_8"))
+def create_user(new_user_json):
+   # new_user_json = json.loads(request.body.decode("utf_8"))
     # serializer = UserSerializer(data=userJson)
     # if not serializer.is_valid():
     #     print("Bad JSON from front end")

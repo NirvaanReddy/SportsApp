@@ -28,7 +28,7 @@ class UserCreatedSuccesfully(TestCase):
         "birthday":300.23,
         "username":"username",
         "password":"password"}
-        create_user(json.dumps(items))
+        create_user(items)
 
     def test_createUserVerify(self):
         # to verify that we are correctly making users
