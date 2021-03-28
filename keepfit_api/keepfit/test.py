@@ -26,5 +26,5 @@ class UserCreatedSuccesfully(TestCase):
                   }
         json_string = json.dumps(items)
         result = create_user(json_string)
-        print (result)
 
+        self.assertEqual("Hello", 'The lion says "roar"')
