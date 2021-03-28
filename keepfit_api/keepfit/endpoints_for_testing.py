@@ -16,11 +16,10 @@ import os
 import json
 
 # photos_path = "~/Desktop/TempPics/"
-photos_path = "/home/ec2-user/photos/"
 
 # sends user object which overwrites the user with the same ID
 # reassign everything but password
-@api_view(['POST'])
+
 def update_user(request):
     user_info = json.loads(request.body.decode("utf_8"))
     user_id = user_info["id"]
@@ -45,7 +44,7 @@ def update_user(request):
     return HttpResponse("Updated")
 
 
-@api_view(['POST'])
+
 def reset_password(request):
     user_info = json.loads(request.body.decode("utf_8"))
     id = user_info["id"]
@@ -61,7 +60,6 @@ def reset_password(request):
     return HttpResponse("false")
 
 
-@api_view(['POST'])
 def follow_user(request):
     follow_json = json.loads(request.body.decode("utf_8"))
     follower = follow_json["followerID"]  # username of the person following someone
@@ -113,35 +111,35 @@ def unfollow_user(request):
 #     return follower_ids
 
 # gets a user preview
-@api_view(['POST'])
-def get_user_preview(request):
-    user_id = json.loads(request.body.decode("utf_8"))
-
-    text_file = open(photos_path + user_id, "r")
-    pic = text_file.read()
-    text_file.close()
-
-    user = User.objects.get(id=user_id)
-
-    # followers = get_followers(user_name)
-    # followings = get_followings(user_name)
-
-    sessionIDs = list(WorkoutSession.objects.filter(user_id__id=user_id).values_list('id', flat=True))
-    publishedWorkoutIDs = list(Workout.objects.filter(creator_id__id=user_id).values_list('id', flat=True))
-
-    # liked == [String] where each string is an id of a workout the user liked
-    likedWorkouts = list(LikedWorkout.objects.filter(liker_id__id=user_id).values_list('workout_id__id', flat=True))
-
-    items = {"id": user_id,
-             "username": user.username,
-             "shortBiography": user.bio,
-             "profilePicture": pic,
-             "sessionIDs": sessionIDs,
-             "publishedWorkoutIDs": publishedWorkoutIDs,
-             "likedWorkoutIDs": likedWorkouts
-             }
-    json_string = json.dumps(items)
-    return HttpResponse(json_string)
+# @api_view(['POST'])
+# def get_user_preview(request):
+#     user_id = json.loads(request.body.decode("utf_8"))
+#
+#     text_file = open(photos_path + user_id, "r")
+#     pic = text_file.read()
+#     text_file.close()
+#
+#     user = User.objects.get(id=user_id)
+#
+#     # followers = get_followers(user_name)
+#     # followings = get_followings(user_name)
+#
+#     sessionIDs = list(WorkoutSession.objects.filter(user_id__id=user_id).values_list('id', flat=True))
+#     publishedWorkoutIDs = list(Workout.objects.filter(creator_id__id=user_id).values_list('id', flat=True))
+#
+#     # liked == [String] where each string is an id of a workout the user liked
+#     likedWorkouts = list(LikedWorkout.objects.filter(liker_id__id=user_id).values_list('workout_id__id', flat=True))
+#
+#     items = {"id": user_id,
+#              "username": user.username,
+#              "shortBiography": user.bio,
+#              "profilePicture": pic,
+#              "sessionIDs": sessionIDs,
+#              "publishedWorkoutIDs": publishedWorkoutIDs,
+#              "likedWorkoutIDs": likedWorkouts
+#              }
+#     json_string = json.dumps(items)
+#     return HttpResponse(json_string)
 
     # assuming userID
     # UserPreview
@@ -340,7 +338,7 @@ def searchUsers(request):
     return HttpResponse(json_string)
 
 
-@api_view(['POST'])
+
 def searchWorkouts(request):
     title_ = json.loads(request.body.decode("utf_8"))
 
