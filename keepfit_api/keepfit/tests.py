@@ -7,7 +7,7 @@ from django.db import models
 from .s import *
 from .user import *
 from django.core.files import File
-from django.http import HttpResponse
+from django.http import HttpRequest
 from .user_endpoints import photos_path
 from .user import *
 from .user_endpoints import *
@@ -26,6 +26,6 @@ class UserCreatedSuccesfully(TestCase):
                   "birthdate" : 2.3 , "username" : "jjjj" , "password": "stringstring"
                   }
         json_string = json.dumps(items)
-        result = create_user(HttpResponse(json_string))
+        result = create_user(HttpRequest(json_string))
 
         self.assertEqual("Hello", 'The lion says "roar"')
