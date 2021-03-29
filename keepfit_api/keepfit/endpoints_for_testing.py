@@ -188,7 +188,7 @@ def user_login(login_json):
                 'following__id', flat=True)
             sessionIDs = list(WorkoutSession.objects.filter(user_id__id=user_id).values_list('id', flat=True))
 
-            print(likedWorkoutIDs)
+
 
             # User
             # {
@@ -273,7 +273,7 @@ def create_user(new_user_json):
 
 def searchCategory(type):
 
-    print(type)
+
     categories = Workout.objects.filter(category=type)
 
     listOfDictionaries = []
@@ -283,7 +283,7 @@ def searchCategory(type):
                                    "createdDate": workout.created_date, "category": workout.category
                                    })
 
-    print(listOfDictionaries)
+
     json_string = json.dumps(listOfDictionaries)
 
     return HttpResponse(json_string)
@@ -324,7 +324,7 @@ def searchUsers(name):
         listOfDictionaries.append({"id": user.id,
                                    "username": user.username,
                                    "shortBiography": user.bio,
-                                   "profilePicture": pic,
+                                   #"profilePicture": pic,
                                    "sessionIDs": sessionIDs,
                                    "publishedWorkoutIDs": publishedWorkoutIDs,
                                    "likedWorkoutIDs": likedWorkouts
@@ -347,7 +347,7 @@ def searchWorkouts(request):
                                    "createdDate": workout.created_date, "category": workout.category
                                    })
 
-    print(listOfDictionaries)
+
     json_string = json.dumps(listOfDictionaries)
 
     return HttpResponse(json_string)

@@ -152,7 +152,7 @@ class WorkoutSessionCreatedSuccessfully(TestCase):
         }
         result3 = completeWorkout(items3)
     def test_createWS(self):
-        print("testing if a workout session is being created successfully")
+
         workout_s = WorkoutSession.objects.filter(id="ws")
         self.assertEqual(1, len(workout_s))
 #4
@@ -160,7 +160,7 @@ class UsersFoundSuccesfully(TestCase): #this is testing the searchUsers endpoint
     def setUp(self):
         pass
     def test_usersfoundsuccesfully(self):
-        print("Testing User Search Functionality")
+
         item1 = {"id": "jasonGomez2",
                   "sex": "Male",
                   "pounds": 542,
@@ -169,7 +169,7 @@ class UsersFoundSuccesfully(TestCase): #this is testing the searchUsers endpoint
                   "birthdate": 300.23,
                   "username": "jason1",
                   "password": "password"}
-        item2 = {"id": "jasonGomez2",
+        item2 = {"id": "jasonGomez9",
                  "sex": "Male",
                  "pounds": 542,
                  "inches": 39,
@@ -199,7 +199,7 @@ class UsersFoundSuccesfully(TestCase): #this is testing the searchUsers endpoint
         create_user(item4)
         users = searchUsers("jason")
         self.assertEqual(4, len(users))
-        print("SUCCESS")
+
 
 #5
 class FollowSuccess(TestCase): #tests if a user can follow another user
@@ -223,10 +223,10 @@ class FollowSuccess(TestCase): #tests if a user can follow another user
                  "password": "password"}
         create_user(item1)
         create_user(item2)
-        follow_user({"followerID": "jason2", "followingID": "jason1"})
+        follow_user({"followerID": "jasonGomez1", "followingID": "jasonGomez2"})
 
     def test_followsuccess(self):
-        followIDs = Following.objects.filter(follower__id="jason1").values("following__id").values_list(
+        followIDs = Following.objects.filter(follower__id="jasonGomez1").values("following__id").values_list(
             'following__id', flat=True)
         self.assertEqual(1, len(followIDs))
 class UnFollowSuccess(TestCase):
@@ -249,10 +249,10 @@ class UnFollowSuccess(TestCase):
                  "password": "password"}
         create_user(item1)
         create_user(item2)
-        follow_user({"followerID": "jason2", "followingID": "jason1"})
-        unfollow_user({"followerID": "jason2", "followingID": "jason1"})
+        follow_user({"followerID": "jasonGomez1", "followingID": "jasonGomez2"})
+        unfollow_user({"followerID": "jasonGomez1", "followingID": "jasonGomez2"})
     def test_unfollow(self):
-        followIDs = Following.objects.filter(follower__id="jason1").values("following__id").values_list(
+        followIDs = Following.objects.filter(follower__id="jasonGomez1").values("following__id").values_list(
             'following__id', flat=True)
         self.assertEqual(0, len(followIDs))
 #7
