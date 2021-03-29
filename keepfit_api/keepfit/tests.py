@@ -29,10 +29,12 @@ class UserCreatedSuccesfully(TestCase):
         "password":"password"}
         result = create_user(items)
 
+
     def test_createUserVerify(self):
         # to verify that we are correctly making users
         user = User.objects.filter(username="username")
         self.assertEqual(1, len(user))
+        #verifies that only one user is found w/username
 
 
     def test_createrUser_duplicateUsername(self):
@@ -48,6 +50,7 @@ class UserCreatedSuccesfully(TestCase):
         result = create_user(items)
         if(result == "Duplicate"):
             assert ("Duplicate Username")
+        # determines that there are no duplicated
 
     def test_updateUser(self):
         items = {"id": "tenp",
@@ -75,6 +78,7 @@ class UserCreatedSuccesfully(TestCase):
         self.assertEqual(100, user.height_in_inches)
         self.assertEqual("New Bio", user.bio)
         self.assertEqual(1.01, user.birthday)
+        #testing that user info is correctly updated
 
 class LoginTestings(TestCase):
     def setUp(self):
@@ -90,12 +94,15 @@ class LoginTestings(TestCase):
     def test_loginTest(self):
         result = user_login({"username":"username" , "password":"password"})
         self.assertEqual("Success", result)
+        # Validates that login function returns success menaing that logged in correctly
     def test_login_badusername(self):
         result = user_login({"username": "WOOOOOW", "password": "password"})
         self.assertEqual("badusername", result)
+        # if username doesnt exist login returns badusername
     def test_login_password(self):
         result = user_login({"username": "username", "password": "bitch"})
         self.assertEqual("badpassword", result)
+        #if password incorrect, login returns badpassword
 #2
 class WorkoutCreatedSuccessfully(TestCase):
     def setUp(self):
@@ -120,6 +127,7 @@ class WorkoutCreatedSuccessfully(TestCase):
     def test_createWorkout(self):
         workout = Workout.objects.filter(id="arg")
         self.assertEqual(1, len(workout))
+        # verify that workout of new type is present
 
 #3
 class WorkoutSessionCreatedSuccessfully(TestCase):
@@ -155,6 +163,7 @@ class WorkoutSessionCreatedSuccessfully(TestCase):
 
         workout_s = WorkoutSession.objects.filter(id="ws")
         self.assertEqual(1, len(workout_s))
+        # verify that workoutsession is present
 #4
 class UsersFoundSuccesfully(TestCase): #this is testing the searchUsers endpoint
     def setUp(self):
@@ -199,6 +208,8 @@ class UsersFoundSuccesfully(TestCase): #this is testing the searchUsers endpoint
         create_user(item4)
         users = searchUsers("jason")
         self.assertEqual(4, len(users))
+        # 4 users created with same beginning of username
+        # 4 should be returned
 
 
 #5
@@ -229,6 +240,7 @@ class FollowSuccess(TestCase): #tests if a user can follow another user
         followIDs = Following.objects.filter(follower__id="jasonGomez1").values("following__id").values_list(
             'following__id', flat=True)
         self.assertEqual(1, len(followIDs))
+        # 2 users created and one follows another so one that was followed should have 1 follower
 class UnFollowSuccess(TestCase):
     def setUp(self):
         item1 = {"id": "jasonGomez1",
@@ -255,6 +267,7 @@ class UnFollowSuccess(TestCase):
         followIDs = Following.objects.filter(follower__id="jasonGomez1").values("following__id").values_list(
             'following__id', flat=True)
         self.assertEqual(0, len(followIDs))
+        #after a user follows another, # followers should be 0
 #7
 class LikeWorkout(TestCase): #tests if one can like a workout
     def setUp(self):
@@ -297,6 +310,7 @@ class LikeWorkout(TestCase): #tests if one can like a workout
         likedWorkoutIDs = list(
             LikedWorkout.objects.filter(liker_id__id="jasonGomez").values_list('workout_id__id', flat=True))
         self.assertEqual(1, len(likedWorkoutIDs))
+        # one workout was liked so one workout should be returned
     def test_unlike(self):
         list2 = {
             "userID": "jasonGomez",
@@ -306,6 +320,7 @@ class LikeWorkout(TestCase): #tests if one can like a workout
         likedWorkoutIDs = list(
             LikedWorkout.objects.filter(liker_id__id="jasonGomez").values_list('workout_id__id', flat=True))
         self.assertEqual(0, len(likedWorkoutIDs))
+        # one workout was liked then one was unliked so 0 should be returned
 
 # #9
 # class searchForCategory(TestCase): #tests if one can search for a post with a category
@@ -346,12 +361,15 @@ class searchForWorkout(TestCase): #searching for a workout not made should not r
     def test_unmadeWorkout(self):
         list_ = list(Workout.objects.filter(creator_id__id="H").values_list('id', flat=True))
         self.assertEqual(0,len(list_))
+        # workout doesnt exist so shouldn't return anything
     def test_madeWorkout(self):
         list_ =list(Workout.objects.filter(creator_id__id="jasonGomez").values_list('id', flat=True))
         self.assertEqual(1,len(list_))
+        # workout exists so should return 1
     def test_empty_workoutSessions(self): #new user should have no workoutsessions
         sessionIDs = list(WorkoutSession.objects.filter(user_id__id="jasonGomez").values_list('id', flat=True))
         self.assertEqual(0,len(sessionIDs))
+        #if user is just created, 0 workout sessions returned
 
 
 #12
