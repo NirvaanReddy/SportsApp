@@ -20,8 +20,7 @@ import json
 # sends user object which overwrites the user with the same ID
 # reassign everything but password
 
-def update_user(request):
-    user_info = json.loads(request.body.decode("utf_8"))
+def update_user(user_info):
     user_id = user_info["id"]
     user = User.objects.get(id=user_id)
 
@@ -34,10 +33,10 @@ def update_user(request):
     user.birthday = user_info["birthdate"]
 
     # save profile picture
-    profile = user_info["profilePicture"]
-    text_file = open(photos_path + user_info["id"], "w")
-    text_file.write(profile)
-    text_file.close()
+    # profile = user_info["profilePicture"]
+    # text_file = open(photos_path + user_info["id"], "w")
+    # text_file.write(profile)
+    # text_file.close()
 
     user.save()
 
@@ -45,8 +44,7 @@ def update_user(request):
 
 
 
-def reset_password(request):
-    user_info = json.loads(request.body.decode("utf_8"))
+def reset_password(user_info):
     id = user_info["id"]
     old_password = user_info["oldPassword"]
     new_password = user_info["newPassword"]
@@ -60,8 +58,8 @@ def reset_password(request):
     return HttpResponse("false")
 
 
-def follow_user(request):
-    follow_json = json.loads(request.body.decode("utf_8"))
+def follow_user(follow_json):
+   # follow_json = json.loads(request.body.decode("utf_8"))
     follower = follow_json["followerID"]  # username of the person following someone
     following = follow_json["followingID"]  # person they want to follow
 
@@ -80,8 +78,8 @@ def follow_user(request):
     return HttpResponse()
 
 
-def unfollow_user(request):
-    follow_json = json.loads(request.body.decode("utf_8"))
+def unfollow_user(follow_json):
+    #follow_json = json.loads(request.body.decode("utf_8"))
     follower = follow_json["followerID"]  # username of the person following someone
     following = follow_json["followingID"]  # person they want to follow
 
@@ -94,7 +92,7 @@ def unfollow_user(request):
     #     return HttpResponse("Success")
     # else:
     #     return HttpResponse("Failure")
-    return HttpResponse()
+
 #
 # @api_view(['POST'])
 # def get_followers(username): # pass in user name
@@ -159,8 +157,8 @@ def unfollow_user(request):
 
 # takes in username/password, sends back user
 
-def user_login(request):
-    login_json = json.loads(request.body.decode("utf_8"))
+def user_login(login_json):
+   # login_json = json.loads(request.body.decode("utf_8"))
     # print(login_json)
 
     username = login_json["username"]
@@ -175,9 +173,9 @@ def user_login(request):
         # If the password matches
         if password == user.password:
 
-            text_file = open(photos_path + user.id, "r")
-            pic = text_file.read()
-            text_file.close()
+            # text_file = open(photos_path + user.id, "r")
+            # pic = text_file.read()
+            # text_file.close()
 
             user_id = user.id
             user_name = user.username
@@ -221,16 +219,14 @@ def user_login(request):
                      "pounds": user.weight,
                      "inches": user.height_in_inches
                      }
-            print(list(published_workouts))
-            print(list(sessionIDs))
-            print(list(followIDs))
-            json_string = json.dumps(items)
-            return HttpResponse(json_string)
+
+
+            return "Success"
         else:
-            return HttpResponse("badpassword")
+            return "badpassword"
     # Else the username doesn't exist
     else:
-        return HttpResponse("badusername")
+        return "badusername"
 
 
 
@@ -241,6 +237,7 @@ def create_user(new_user_json):
     #     print("Bad JSON from front end")
     # If the set is empty, create the user and the profile picture
     query_results = User.objects.filter(username=new_user_json["username"])
+
     if len(query_results) == 0:
         # profile = new_user_json["profilePicture"]
         # text_file = open(photos_path + new_user_json["id"], "w")
@@ -258,7 +255,9 @@ def create_user(new_user_json):
         )
         print("MAKE IT TO CREATE USER")
         new_user.save()
-
+        return "Success"
+    else:
+        return "Duplicate"
         # Create the profile picture
         # _id = new_user.pk
         # image_data = base64.b64decode(profile_pic_data)
@@ -273,8 +272,8 @@ def create_user(new_user_json):
 
 
 
-def searchCategory(request):
-    type = json.loads(request.body.decode("utf_8"))
+def searchCategory(type):
+
     print(type)
     categories = Workout.objects.filter(category=type)
 
@@ -292,9 +291,8 @@ def searchCategory(request):
     # https://pythonexamples.org/python-list-to-json/#3
 
 
+def searchUsers(name):
 
-def searchUsers(request):
-    name = json.loads(request.body.decode("utf_8"))
     # name is now a string of the sent username
     users = User.objects.filter(username__startswith=name)
 
@@ -315,8 +313,8 @@ def searchUsers(request):
     listOfDictionaries = []
     for user in users:
        #
-        pic = text_file.read()
-        text_file.close()
+        # pic = text_file.read()
+        # text_file.close()
 
         sessionIDs = list(WorkoutSession.objects.filter(user_id__id=user.id).values_list('id', flat=True))
         publishedWorkoutIDs = list(Workout.objects.filter(creator_id__id=user.id).values_list('id', flat=True))
@@ -333,8 +331,8 @@ def searchUsers(request):
                                    "likedWorkoutIDs": likedWorkouts
                                    })
     # print(listOfDictionaries)
-    json_string = json.dumps(listOfDictionaries)
-    return HttpResponse(json_string)
+
+    return listOfDictionaries
 
 
 
@@ -359,26 +357,26 @@ videos_path = "/home/ec2-user/videos/"
 
 def likeWorkout(request):
     # assume workout Id and User ID passed in
-    json_Workout = json.loads(request.body.decode("utf_8"))
+    json_Workout = request
     userId = json_Workout["userID"]
     wID = json_Workout["workoutID"]
     user = User.objects.get(id=userId)
     workout = Workout.objects.get(id=wID)
     newWorkout = LikedWorkout.objects.create(liker_id=user, workout_id=workout)
     newWorkout.save()
-    return HttpResponse("Success")
+
 
 def unlikeWorkout(request):
     # assume workout Id and User ID passed in
-    json_Workout = json.loads(request.body.decode("utf_8"))
+    json_Workout = request
     userId = json_Workout["userID"]
     wID = json_Workout["workoutID"]
 
     oldWorkout = LikedWorkout.objects.get(liker_id_id=userId, workout_id_id=wID)
     oldWorkout.delete()
-    return HttpResponse("Success")
 
-def completeWorkout(request):
+
+def completeWorkout(json_Workout):
     # inputs WorkoutSession JSON
 
     # WorkoutSession
@@ -391,7 +389,7 @@ def completeWorkout(request):
     #     caloriesBurned: Integer
     # }
 
-    json_Workout = json.loads(request.body.decode("utf_8"))
+   # json_Workout = json.loads(request.body.decode("utf_8"))
 
     newWorkout = WorkoutSession.objects.create(id=json_Workout["id"],
                                        workout_id_id=json_Workout["workoutID"],
@@ -401,11 +399,11 @@ def completeWorkout(request):
                                        end_time=json_Workout["endTime"]
                                        )
     newWorkout.save()
-    return HttpResponse("Success")
 
 
-def publishWorkout(request):
-    workout_json = json.loads(request.body.decode("utf_8"))
+
+def publishWorkout(workout_json):
+    #workout_json = json.loads(request.body.decode("utf_8"))
 
     # Workout
     # {
@@ -429,11 +427,11 @@ def publishWorkout(request):
     )
 
     new_workout.save()
-    return HttpResponse("Success")
 
 
-def getWorkoutSession(request):
-    wsID = json.loads(request.body.decode("utf_8"))
+
+def getWorkoutSession(wsID):
+   # wsID = json.loads(request.body.decode("utf_8"))
 
     # WorkoutSession
     # {
@@ -457,8 +455,8 @@ def getWorkoutSession(request):
     return HttpResponse(json_string)
 
 
-def getWorkout(request):
-    wID = json.loads(request.body.decode("utf_8"))
+def getWorkout(wID):
+   # wID = json.loads(request.body.decode("utf_8"))
 
     # Workout
     # {
