@@ -25,6 +25,11 @@ def update_user(request):
     user_info = json.loads(request.body.decode("utf_8"))
     user_id = user_info["id"]
     user = User.objects.get(id=user_id)
+    check_username = user_info["username"]
+    should_be_empty = User.objects.filter(username=check_username)
+    if (len(should_be_empty) != 0):
+        return HttpResponse("That username already exists")
+
 
     user.username = user_info["username"]
 
