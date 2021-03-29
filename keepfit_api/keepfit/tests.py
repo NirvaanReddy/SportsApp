@@ -92,9 +92,10 @@ class LoginTestings(TestCase):
         self.assertEqual("Success", result)
     def test_login_badusername(self):
         result = user_login({"username": "WOOOOOW", "password": "password"})
-        self.assertEqual("Failure", result)
+        self.assertEqual("badusername", result)
     def test_login_password(self):
-        pass
+        result = user_login({"username": "username", "password": "password"})
+        self.assertEqual("badpassword", result)
 #2
 class WorkoutCreatedSuccessfully(TestCase):
     def setUp(self):
@@ -351,7 +352,6 @@ class searchForWorkout(TestCase): #searching for a workout not made should not r
     def test_empty_workoutSessions(self): #new user should have no workoutsessions
         sessionIDs = list(WorkoutSession.objects.filter(user_id__id="jasonGomez").values_list('id', flat=True))
         self.assertEqual(0,len(sessionIDs))
-
 
 
 #12
