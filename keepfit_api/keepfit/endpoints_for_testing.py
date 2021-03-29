@@ -252,7 +252,7 @@ def create_user(new_user_json):
             username=new_user_json["username"],
             password=new_user_json["password"],
         )
-        print("MAKE IT TO CREATE USER")
+
         new_user.save()
         return "Success"
     else:

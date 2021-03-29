@@ -59,7 +59,7 @@ class UserCreatedSuccesfully(TestCase):
                  "username": "jasong1278",
                  "password": "password"}
         result = create_user(items)
-        items1 = {"id": "newID",
+        items1 = {"id": "tenp",
                  "sex": "Female",
                  "pounds": 100,
                  "inches": 100,
@@ -69,9 +69,9 @@ class UserCreatedSuccesfully(TestCase):
                  "password": "password"}
         update_user(items1)
 
-        user = User.objects.filter(username="jasong1278")
-        self.assertEqual("newID", user.ID)
-        self.assertEqual(100, user.pounds)
+        u = User.objects.filter(username="jasong1278")
+        user = u[0]
+        self.assertEqual(100, user.weight)
         self.assertEqual(100, user.height_in_inches)
         self.assertEqual("New Bio", user.bio)
         self.assertEqual(1.01, user.birthday)
@@ -94,7 +94,7 @@ class LoginTestings(TestCase):
         result = user_login({"username": "WOOOOOW", "password": "password"})
         self.assertEqual("badusername", result)
     def test_login_password(self):
-        result = user_login({"username": "username", "password": "password"})
+        result = user_login({"username": "username", "password": "bitch"})
         self.assertEqual("badpassword", result)
 #2
 class WorkoutCreatedSuccessfully(TestCase):
@@ -118,12 +118,12 @@ class WorkoutCreatedSuccessfully(TestCase):
         }
         publishWorkout(items2)
     def test_createWorkout(self):
-        workout = Workout.objects.get(id="arg")
+        workout = Workout.objects.filter(id="arg")
         self.assertEqual(1, len(workout))
 
 #3
 class WorkoutSessionCreatedSuccessfully(TestCase):
-    def setUpClass(self):
+    def setUp(self):
         items = {"id": "jasonGomez",
                  "sex": "Male",
                  "pounds": 542,
@@ -153,11 +153,11 @@ class WorkoutSessionCreatedSuccessfully(TestCase):
         result3 = completeWorkout(items3)
     def test_createWS(self):
         print("testing if a workout session is being created successfully")
-        workout_s = WorkoutSession.objects.get(id="ws")
+        workout_s = WorkoutSession.objects.filter(id="ws")
         self.assertEqual(1, len(workout_s))
 #4
 class UsersFoundSuccesfully(TestCase): #this is testing the searchUsers endpoint
-    def setUpClass(self):
+    def setUp(self):
         pass
     def test_usersfoundsuccesfully(self):
         print("Testing User Search Functionality")
@@ -203,9 +203,9 @@ class UsersFoundSuccesfully(TestCase): #this is testing the searchUsers endpoint
 
 #5
 class FollowSuccess(TestCase): #tests if a user can follow another user
-    def setUpClass(self):
+    def setUp(self):
 
-        item1 = {"id": "jasonGomez2",
+        item1 = {"id": "jasonGomez1",
                  "sex": "Male",
                  "pounds": 542,
                  "inches": 39,
@@ -230,8 +230,8 @@ class FollowSuccess(TestCase): #tests if a user can follow another user
             'following__id', flat=True)
         self.assertEqual(1, len(followIDs))
 class UnFollowSuccess(TestCase):
-    def setUpClass(self):
-        item1 = {"id": "jasonGomez2",
+    def setUp(self):
+        item1 = {"id": "jasonGomez1",
                  "sex": "Male",
                  "pounds": 542,
                  "inches": 39,
@@ -257,7 +257,7 @@ class UnFollowSuccess(TestCase):
         self.assertEqual(0, len(followIDs))
 #7
 class LikeWorkout(TestCase): #tests if one can like a workout
-    def setUpClass(self):
+    def setUp(self):
         items = {"id": "jasonGomez",
                  "sex": "Male",
                  "pounds": 542,
@@ -323,7 +323,7 @@ class LikeWorkout(TestCase): #tests if one can like a workout
 
 #11
 class searchForWorkout(TestCase): #searching for a workout not made should not return a valid workout
-    def setUpClass(self):
+    def setUp(self):
         items = {"id": "jasonGomez",
                  "sex": "Male",
                  "pounds": 542,
@@ -344,11 +344,11 @@ class searchForWorkout(TestCase): #searching for a workout not made should not r
         publishWorkout(items2)
 
     def test_unmadeWorkout(self):
-        list(Workout.objects.filter(creator_id__id="H").values_list('id', flat=True))
-        self.assertEqual(0,len(list))
+        list_ = list(Workout.objects.filter(creator_id__id="H").values_list('id', flat=True))
+        self.assertEqual(0,len(list_))
     def test_madeWorkout(self):
-        list(Workout.objects.filter(creator_id__id="jasonGomez").values_list('id', flat=True))
-        self.assertEqual(1,len(list))
+        list_ =list(Workout.objects.filter(creator_id__id="jasonGomez").values_list('id', flat=True))
+        self.assertEqual(1,len(list_))
     def test_empty_workoutSessions(self): #new user should have no workoutsessions
         sessionIDs = list(WorkoutSession.objects.filter(user_id__id="jasonGomez").values_list('id', flat=True))
         self.assertEqual(0,len(sessionIDs))
@@ -356,7 +356,7 @@ class searchForWorkout(TestCase): #searching for a workout not made should not r
 
 #12
 class searchForUser(TestCase):
-    def setUpClass(self):
+    def setUp(self):
         item1 = {"id": "jasonGomez2",
                  "sex": "Male",
                  "pounds": 542,
@@ -367,9 +367,9 @@ class searchForUser(TestCase):
                  "password": "password"}
         create_user(item1)
     def test_unmadeUser(self):
-        list = searchUsers("Dana")
-        self.assertEqual(0,len(list))
+        list_ = searchUsers("Dana")
+        self.assertEqual(0,len(list_))
     def test_madeUser(self):
-        list = searchUsers("jasonGomez2")
-        self.assertEqual(1,len(list))
+        list_ = searchUsers("jason1")
+        self.assertEqual(1,len(list_))
 
