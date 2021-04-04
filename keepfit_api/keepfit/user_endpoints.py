@@ -240,12 +240,12 @@ def user_login(request):
 
 @api_view(['POST'])
 def deleteWorkoutSessions(request):
-    ws_id = json.loads(request.body.decode("utf_8"))
+    ws_id = json.loads(request.body.decode("utf_8")) #assumes I am getting the correct WS id
     WorkoutSession.objects.filter(id=ws_id).delete()
     return HttpResponse("success")
 
 def deleteWorkout(request):
-    workout_id = json.loads(request.body.decode("utf_8"))
+    workout_id = json.loads(request.body.decode("utf_8")) #assumes I am getting the correct Workout id
     Workout.objects.filter(id=workout_id).delete()
     return HttpResponse("success")
 
