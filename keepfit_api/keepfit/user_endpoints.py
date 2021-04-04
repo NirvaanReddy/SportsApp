@@ -25,14 +25,13 @@ def update_user(request):
     user_info = json.loads(request.body.decode("utf_8"))
     user_id = user_info["id"]
     user = User.objects.get(id=user_id)
+
     check_username = user_info["username"]
     should_be_empty = User.objects.filter(username=check_username)
     if (len(should_be_empty) != 0):
         return HttpResponse("That username already exists")
 
-
     user.username = user_info["username"]
-
     user.bio = user_info["shortBiography"]
     user.weight = user_info["pounds"]
     user.height_in_inches = user_info["inches"]
@@ -239,6 +238,16 @@ def user_login(request):
     else:
         return HttpResponse("badusername")
 
+@api_view(['POST'])
+def deleteWorkoutSessions(request):
+    ws_id = json.loads(request.body.decode("utf_8"))
+    WorkoutSession.objects.filter(id=ws_id).delete()
+    return HttpResponse("success")
+
+def deleteWorkout(request):
+    workout_id = json.loads(request.body.decode("utf_8"))
+    Workout.objects.filter(id=workout_id).delete()
+    return HttpResponse("success")
 
 @api_view(['POST'])
 def create_user(request):
