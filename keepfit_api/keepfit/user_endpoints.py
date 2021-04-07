@@ -239,7 +239,7 @@ def user_login(request):
         return HttpResponse("badusername")
 
 @api_view(['POST'])
-def deleteWorkoutSessions(request):
+def deleteWorkoutSession(request):
     ws_id = json.loads(request.body.decode("utf_8")) #assumes I am getting the correct WS id
     WorkoutSession.objects.filter(id=ws_id).delete()
     return HttpResponse("success")
