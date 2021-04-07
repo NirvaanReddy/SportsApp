@@ -295,3 +295,4 @@ def create_user(request):
         return HttpResponse("true")
     else:
         return HttpResponse("false")
+
