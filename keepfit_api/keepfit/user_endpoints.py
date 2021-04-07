@@ -244,6 +244,7 @@ def deleteWorkoutSessions(request):
     WorkoutSession.objects.filter(id=ws_id).delete()
     return HttpResponse("success")
 
+@api_view(["POST"])
 def deleteWorkout(request):
     workout_id = json.loads(request.body.decode("utf_8")) #assumes I am getting the correct Workout id
     Workout.objects.filter(id=workout_id).delete()
