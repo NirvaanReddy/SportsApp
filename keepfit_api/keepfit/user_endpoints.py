@@ -251,6 +251,12 @@ def deleteWorkout(request):
     return HttpResponse("success")
 
 @api_view(['POST'])
+def deleteUser(request):
+    user_id = json.loads(request.body.decode("utf_8"))
+    User.objects.filter(id=user_id).delete()
+    return HttpResponse("success")
+
+@api_view(['POST'])
 def create_user(request):
     new_user_json = json.loads(request.body.decode("utf_8"))
     # serializer = UserSerializer(data=userJson)

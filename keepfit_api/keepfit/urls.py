@@ -35,7 +35,8 @@ urlpatterns = [
     path('getWorkoutSession/', workout_endpoints.getWorkoutSession),
     path('resetPassword/', user_endpoints.reset_password),
     path('deleteWorkout/', user_endpoints.deleteWorkout),
-    path('deleteWorkoutSession/', user_endpoints.deleteWorkoutSession)
+    path('deleteWorkoutSession/', user_endpoints.deleteWorkoutSession),
+    path('deleteUser/', user_endpoints.deleteUser)
     # path('publishWorkoutSession/', workout_endpoints.completeWorkout),
     #path('videos/')
 
