@@ -39,6 +39,13 @@ class WorkoutSession(models.Model):
     class Meta:
         db_table = 'workout_session'
 
+class SearchHistory(models.Model):
+    id = models.CharField(max_length=9999,primary_key=True)
+    user_id = models.ForeignKey('User', on_delete=models.CASCADE)
+    date = models.FloatField()
+
+    class Meta:
+        db_table = 'search_history'
 
 class Workout(models.Model):
     id = models.CharField(max_length=9999, primary_key=True)

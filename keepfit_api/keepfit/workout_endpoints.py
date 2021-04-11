@@ -178,16 +178,17 @@ def downloadVideo(request):
 
     return HttpResponse(binary_data)
 
-@api_view(['POST'])
-def getTop10Workouts():
-    workouts = LikedWorkout.objects.all().values_list('workout_id__id', flat=True)
-    dict1 = {}
-    for workout in workouts:
-        if dict1.get(workout.id) != None: #idk the python syntax to check if a workout is in the map
-            
+#@api_view(['POST'])
+#def getTop10Workouts():
+#    workouts = LikedWorkout.objects.all().values_list('workout_id__id', flat=True)
+#    dict1 = {}
+#    for workout in workouts:
+#        if dict1.get(workout.id) != None: #idk the python syntax to check if a workout is in the map
 
-        else:
-            dict1.update(workout.id : 0)
+
+#        else:
+#            pass
+            #dict1.update(workout.id : 0)
 
 # @api_view(['POST'])
 # def get_workout_categories(request):
