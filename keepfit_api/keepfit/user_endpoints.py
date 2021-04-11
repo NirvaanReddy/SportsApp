@@ -50,6 +50,18 @@ def update_user(request):
 
 
 @api_view(['POST'])
+def storeSearch(request):
+    search_info_json = json.loads(request.body.decode("utf_8"))
+    id_user = search_info_json["user"]
+    time = search_info_json["date"]
+    new_search = SearchHistory.objects.create(
+        user_id=id_user,
+        date=time,
+    )
+    new_search.save()
+    return HttpResponse("True")
+
+@api_view(['POST'])
 def reset_password(request):
     user_info = json.loads(request.body.decode("utf_8"))
     id = user_info["id"]
@@ -213,6 +225,16 @@ def user_login(request):
             #     "followingIDs": [String],
             #     "sessionIDs": [String],
             # }
+            searches = list(SearchHistory.objects.filter(user_id__id=user_id).values_list('id',flat=True))
+            for i in range(len(searches)):
+                for j in range(len(searches)):
+                    if i.date > j.date:
+                        temp = j
+                        j = i
+                        i = temp
+            ten_searches = []
+            for i in range(10):
+                ten_searches.append(searches[i])
 
             items = {"id": user_id,
                      "username": user_name,
@@ -225,11 +247,9 @@ def user_login(request):
                      "birthdate": bday,
                      "followingIDs": list(followIDs),
                      "pounds": user.weight,
-                     "inches": user.height_in_inches
+                     "inches": user.height_in_inches,
+                     "10_searches": ten_searches
                      }
-            print(list(published_workouts))
-            print(list(sessionIDs))
-            print(list(followIDs))
             json_string = json.dumps(items)
             return HttpResponse(json_string)
         else:
@@ -279,7 +299,6 @@ def create_user(request):
             username=new_user_json["username"],
             password=new_user_json["password"],
         )
-        print("MAKE IT TO CREATE USER")
         new_user.save()
 
         # Create the profile picture
