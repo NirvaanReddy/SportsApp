@@ -225,7 +225,7 @@ def user_login(request):
             #     "followingIDs": [String],
             #     "sessionIDs": [String],
             # }
-            searches = list(SearchHistory.objects.filter(user_id__id=user_id).values_list('id',flat=True))
+            searches = list(SearchHistory.objects.filter(user_id__id=user_id).values_list('id', flat=True))
             for i in range(len(searches)):
                 for j in range(len(searches)):
                     if i.date > j.date:
