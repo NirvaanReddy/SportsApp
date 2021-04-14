@@ -49,17 +49,6 @@ def update_user(request):
     return HttpResponse("Updated")
 
 
-@api_view(['POST'])
-def storeSearch(request):
-    search_info_json = json.loads(request.body.decode("utf_8"))
-    id_user = search_info_json["user"]
-    time = search_info_json["date"]
-    new_search = SearchHistory.objects.create(
-        user_id=id_user,
-        date=time,
-    )
-    new_search.save()
-    return HttpResponse("True")
 
 @api_view(['POST'])
 def reset_password(request):
@@ -207,7 +196,7 @@ def user_login(request):
             followIDs = Following.objects.filter(follower__id=user_id).values("following__id").values_list(
                 'following__id', flat=True)
             sessionIDs = list(WorkoutSession.objects.filter(user_id__id=user_id).values_list('id', flat=True))
-
+            planned_workouts = list(PlannedWorkout.objects.filter(planner_id__id = user_id).values_list('id', flat=True))
             print(likedWorkoutIDs)
 
             # User
@@ -225,17 +214,9 @@ def user_login(request):
             #     "followingIDs": [String],
             #     "sessionIDs": [String],
             # }
-            searches = list(SearchHistory.objects.filter(user_id__id=user_id).values_list('id', flat=True))
-            for i in range(len(searches)):
-                for j in range(len(searches)):
-                    if i.date > j.date:
-                        temp = j
-                        j = i
-                        i = temp
-            ten_searches = []
-            for i in range(10):
-                ten_searches.append(searches[i])
 
+            results = list(SearchHistory.Objects.filter(user_id=user_id).values_list('searchItem', flat=True))
+            ten = results[-10:]
             items = {"id": user_id,
                      "username": user_name,
                      "shortBiography": bio,
@@ -246,9 +227,10 @@ def user_login(request):
                      "sex": user.sex,
                      "birthdate": bday,
                      "followingIDs": list(followIDs),
+                     "plannedWorkouts": planned_workouts,
                      "pounds": user.weight,
                      "inches": user.height_in_inches,
-                     "10_searches": ten_searches
+                     "10_searches": ten
                      }
             json_string = json.dumps(items)
             return HttpResponse(json_string)
@@ -271,7 +253,7 @@ def deleteWorkout(request):
     return HttpResponse("success")
 
 @api_view(['POST'])
-def deleteUser(request):
+def deleteAccount(request):
     user_id = json.loads(request.body.decode("utf_8"))
     User.objects.filter(id=user_id).delete()
     return HttpResponse("success")

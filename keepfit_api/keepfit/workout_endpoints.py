@@ -6,14 +6,37 @@ from .s import *
 from .user import *
 from django.core.files import File
 from django.http import HttpResponse
+from collections import Counter
 
 import base64
 import os
+import numpy as np
 import json
 
 
 # videos_path = "~/Desktop/TempVids/"
 videos_path = "/home/ec2-user/videos/"
+
+@api_view(['POST'])
+def publishWorkoutPlan(request):
+    json_Workout = json.loads(request.body.decode("utf_8"))
+    id = json_Workout["id"]
+    user_id = json_Workout["userID"]
+    wID = json_Workout["workoutID"]
+    data = float(json_Workout["date"])
+    new_workout = SearchHistory.objects.create(id = id, planner_id = user_id, workout_id= wID, date = data)
+    new_workout.save()
+    return HttpResponse("Success")
+
+@api_view(['POST'])
+def deleteWorkoutPlan(request):
+    json_Workout = json.loads(request.body.decode("utf_8"))
+    id = json_Workout["id"]
+    oldWorkout = PlannedWorkout.objects.filter(id=id)
+    w = oldWorkout[0]
+    w.delete()
+    return HttpResponse("Success")
+
 
 @api_view(['POST'])
 def likeWorkout(request):
@@ -26,6 +49,8 @@ def likeWorkout(request):
     newWorkout = LikedWorkout.objects.create(liker_id=user, workout_id=workout)
     newWorkout.save()
     return HttpResponse("Success")
+
+
 
 @api_view(['POST'])
 def unlikeWorkout(request):
@@ -177,6 +202,15 @@ def downloadVideo(request):
     new_file.close()
 
     return HttpResponse(binary_data)
+
+
+@api_view(['POST'])
+def get10MostLikedWorkouts(request):
+    words = list(LikedWorkout.objects.all().values_list.values_list('workout_id', flat=True))
+    most_common_words = [word for word, word_count in Counter(words).most_common(10)]
+    mostCommon = {"workouts": most_common_words}
+    json_string = json.dumps(mostCommon)
+    return HttpResponse(json_string)
 
 #@api_view(['POST'])
 #def getTop10Workouts():

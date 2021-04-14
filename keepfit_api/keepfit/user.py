@@ -39,13 +39,7 @@ class WorkoutSession(models.Model):
     class Meta:
         db_table = 'workout_session'
 
-class SearchHistory(models.Model):
-    id = models.CharField(max_length=9999,primary_key=True)
-    user_id = models.ForeignKey('User', on_delete=models.CASCADE)
-    date = models.FloatField()
 
-    class Meta:
-        db_table = 'search_history'
 
 class Workout(models.Model):
     id = models.CharField(max_length=9999, primary_key=True)
@@ -74,7 +68,13 @@ class LikedWorkout(models.Model):
     class Meta:
         db_table = 'liked_workouts'
 
-
+class PlannedWorkout(models.Model):
+    id = models.CharField(max_length=9999, primary_key=True)
+    planner_id = models.ForeignKey('User', on_delete=models.CASCADE)
+    workout_id = models.ForeignKey('Workout', on_delete=models.CASCADE)
+    date = models.FloatField()
+    class Meta:
+        db_table = 'planned_Workouts'
 # class CompletedWorkout(models.Model):
 #     completer_id = models.ForeignKey('User', on_delete=models.CASCADE)
 #     workout_id = models.ForeignKey('Workout', on_delete=models.CASCADE)
@@ -89,3 +89,11 @@ class Following(models.Model):
 
     class Meta:
         db_table = 'followings'
+class SearchHistory(models.Model):
+    id = models.CharField(max_length=9999, primary_key=True)
+    user_id = models.ForeignKey('User', on_delete = models.CASCADE)
+    searchItem = models.CharField(max_length=9999, primary_key=False)
+    date = models.FloatField()
+
+    class Meta:
+        db_table = 'search_history'

@@ -6,6 +6,7 @@ from .s import *
 from .user import *
 from django.core.files import File
 from django.http import HttpResponse
+import numpy as np
 from .user_endpoints import photos_path
 
 import base64
@@ -96,6 +97,24 @@ def searchWorkouts(request):
 
     return HttpResponse(json_string)
 
+@api_view(['POST'])
+def storeSearch(request):
+    searchData = json.loads(request.body)
+    user_iD = searchData["userID"]
+    search_item = searchData["search"]
+    date_item = float(searchData["search"])
+    newSearch = SearchHistory(userID = user_iD,searchItem = search_item, date = date_item )
+    newSearch.save()
+    return HttpResponse("Success")
+
+@api_view(['POST'])
+def getSearches(request):
+    userId = json.loads(request.body)
+    user = userId["userID"]
+    results = list(SearchHistory.Objects.filter(user_id = user).values_list('searchItem', flat = True))
+    ten = results[-10:]
+    json_string = json.dumps(ten)
+    return HttpResponse(json_string)
     #
     #
     #
