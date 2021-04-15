@@ -100,10 +100,11 @@ def searchWorkouts(request):
 @api_view(['POST'])
 def storeSearch(request):
     searchData = json.loads(request.body)
+    id = searchData["id"]
     user_iD = searchData["userID"]
-    search_item = searchData["search"]
-    date_item = float(searchData["search"])
-    newSearch = SearchHistory(userID = user_iD,searchItem = search_item, date = date_item )
+    search_item = searchData["keyword"]
+    date_item = float(searchData["date"])
+    newSearch = SearchHistory.objects.create(id = id, user_id_id = user_iD,searchItem = search_item, date = date_item )
     newSearch.save()
     return HttpResponse("Success")
 

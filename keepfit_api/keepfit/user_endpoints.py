@@ -15,7 +15,7 @@ import base64
 import os
 import json
 
-# photos_path = "~/Desktop/TempPics/"
+# photos_path = "/Users/samdonovan/Desktop/TempPics/"
 photos_path = "/home/ec2-user/photos/"
 
 # sends user object which overwrites the user with the same ID
@@ -196,8 +196,17 @@ def user_login(request):
             followIDs = Following.objects.filter(follower__id=user_id).values("following__id").values_list(
                 'following__id', flat=True)
             sessionIDs = list(WorkoutSession.objects.filter(user_id__id=user_id).values_list('id', flat=True))
-            planned_workouts = list(PlannedWorkout.objects.filter(planner_id__id = user_id).values_list('id', flat=True))
-            print(likedWorkoutIDs)
+            planned_workouts2 = PlannedWorkout.objects.filter(planner_id__id = user_id)
+            planned_workouts = []
+            for plannedWorkout in planned_workouts2:
+                    planned_workouts.append(
+                        {"id":plannedWorkout.id,
+                         "userID":plannedWorkout.planner_id_id,
+                         "workoutID":plannedWorkout.workout_id_id,
+                         "date":plannedWorkout.date
+                        }
+                    )
+            print(planned_workouts)
 
             # User
             # {
@@ -215,8 +224,9 @@ def user_login(request):
             #     "sessionIDs": [String],
             # }
 
-            results = list(SearchHistory.Objects.filter(user_id=user_id).values_list('searchItem', flat=True))
+            results = list(SearchHistory.objects.filter(user_id_id=user_id).values_list('searchItem', flat=True))
             ten = results[-10:]
+            print(ten)
             items = {"id": user_id,
                      "username": user_name,
                      "shortBiography": bio,
@@ -227,10 +237,10 @@ def user_login(request):
                      "sex": user.sex,
                      "birthdate": bday,
                      "followingIDs": list(followIDs),
-                     "plannedWorkouts": planned_workouts,
+                     "workoutPlans": planned_workouts,
                      "pounds": user.weight,
                      "inches": user.height_in_inches,
-                     "10_searches": ten
+                     "tenRecentSearches": ten
                      }
             json_string = json.dumps(items)
             return HttpResponse(json_string)
@@ -243,19 +253,19 @@ def user_login(request):
 @api_view(['POST'])
 def deleteWorkoutSession(request):
     ws_id = json.loads(request.body.decode("utf_8")) #assumes I am getting the correct WS id
-    WorkoutSession.objects.filter(id=ws_id).delete()
+    WorkoutSession.objects.get(id=ws_id).delete()
     return HttpResponse("success")
 
 @api_view(["POST"])
 def deleteWorkout(request):
     workout_id = json.loads(request.body.decode("utf_8")) #assumes I am getting the correct Workout id
-    Workout.objects.filter(id=workout_id).delete()
+    Workout.objects.get(id=workout_id).delete()
     return HttpResponse("success")
 
 @api_view(['POST'])
 def deleteAccount(request):
     user_id = json.loads(request.body.decode("utf_8"))
-    User.objects.filter(id=user_id).delete()
+    User.objects.get(id=user_id).delete()
     return HttpResponse("success")
 
 @api_view(['POST'])

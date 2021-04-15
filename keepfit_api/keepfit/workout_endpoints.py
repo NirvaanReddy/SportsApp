@@ -14,7 +14,7 @@ import numpy as np
 import json
 
 
-# videos_path = "~/Desktop/TempVids/"
+# videos_path = "/Users/samdonovan/Desktop/TempVids/"
 videos_path = "/home/ec2-user/videos/"
 
 @api_view(['POST'])
@@ -24,16 +24,14 @@ def publishWorkoutPlan(request):
     user_id = json_Workout["userID"]
     wID = json_Workout["workoutID"]
     data = float(json_Workout["date"])
-    new_workout = SearchHistory.objects.create(id = id, planner_id = user_id, workout_id= wID, date = data)
+    new_workout = PlannedWorkout.objects.create(id = id, planner_id_id = user_id, workout_id_id= wID, date = data)
     new_workout.save()
     return HttpResponse("Success")
 
 @api_view(['POST'])
 def deleteWorkoutPlan(request):
-    json_Workout = json.loads(request.body.decode("utf_8"))
-    id = json_Workout["id"]
-    oldWorkout = PlannedWorkout.objects.filter(id=id)
-    w = oldWorkout[0]
+    id = json.loads(request.body.decode("utf_8"))
+    w = PlannedWorkout.objects.get(id=id)
     w.delete()
     return HttpResponse("Success")
 
@@ -206,10 +204,10 @@ def downloadVideo(request):
 
 @api_view(['POST'])
 def get10MostLikedWorkouts(request):
-    words = list(LikedWorkout.objects.all().values_list.values_list('workout_id', flat=True))
+    words = LikedWorkout.objects.all().values_list('workout_id', flat=True)
     most_common_words = [word for word, word_count in Counter(words).most_common(10)]
-    mostCommon = {"workouts": most_common_words}
-    json_string = json.dumps(mostCommon)
+    print(most_common_words)
+    json_string = json.dumps(most_common_words)
     return HttpResponse(json_string)
 
 #@api_view(['POST'])
