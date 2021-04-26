@@ -6,7 +6,7 @@ from .s import *
 from .user import *
 from django.core.files import File
 from django.http import HttpResponse
-import numpy as np
+
 from .user_endpoints import photos_path
 
 import base64
