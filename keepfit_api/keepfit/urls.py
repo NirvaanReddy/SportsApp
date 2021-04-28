@@ -40,7 +40,10 @@ urlpatterns = [
     path('storeSearch/', search_endpoints.storeSearch),
     path('get10MostLikedWorkouts/',workout_endpoints.get10MostLikedWorkouts),
     path('publishWorkoutPlan/',workout_endpoints.publishWorkoutPlan),
-    path('deleteWorkoutPlan/',workout_endpoints.deleteWorkoutPlan)
+    path('deleteWorkoutPlan/',workout_endpoints.deleteWorkoutPlan),
+    path('publishComment/', workout_endpoints.publishComment),
+    path('getWorkoutStatus/', workout_endpoints.returnCommentStatus),
+    path('get10MostLikedWorkoutsOfCategory/', workout_endpoints.get10MostLikedWorkoutsOfCategory)
     # path('publishWorkoutSession/', workout_endpoints.completeWorkout),
     #path('videos/')
 

@@ -27,6 +27,18 @@ def publishWorkoutPlan(request):
     new_workout.save()
     return HttpResponse("Success")
 
+
+@api_view(['POST'])
+def publishComment(request):
+    new_comment_json = json.loads(request.body.decode("utf_8"))
+    username_id = new_comment_json["user_id"]
+    wID = new_comment_json["workout_id"]
+    comment = new_comment_json["comment"]
+    id = new_comment_json["id"]
+    new_comment = Comments.objects.create(id = id, user_id_id = username_id, workout_id_id = wID, comment = comment)
+    new_comment.save()
+    return HttpResponse("Success")
+
 @api_view(['POST'])
 def deleteWorkoutPlan(request):
     id = json.loads(request.body.decode("utf_8"))
@@ -46,7 +58,6 @@ def likeWorkout(request):
     newWorkout = LikedWorkout.objects.create(liker_id=user, workout_id=workout)
     newWorkout.save()
     return HttpResponse("Success")
-
 
 
 @api_view(['POST'])
@@ -109,7 +120,8 @@ def publishWorkout(request):
         creator_id_id=workout_json["creatorID"],
         caption=workout_json["caption"],
         category=workout_json["category"],
-        created_date=workout_json["createdDate"]
+        created_date=workout_json["createdDate"],
+        comment_status=workout_json["comment_status"]
     )
 
     new_workout.save()
@@ -141,6 +153,13 @@ def getWorkoutSession(request):
     json_string = json.dumps(ws_dict)
     return HttpResponse(json_string)
 
+@api_view(['POST'])
+def returnCommentStatus(request):
+    wID = json.loads(request.body.decode("utf_8"))
+    workout = Workout.objects.get(id=wID)
+    c_status = workout.comment_status
+    json_string = json.dumps(c_status)
+    return HttpResponse(json_string)
 
 @api_view(['POST'])
 def getWorkout(request):
@@ -158,9 +177,11 @@ def getWorkout(request):
     # }
 
     workout = Workout.objects.get(id=wID)
+    all_comments = Comments.objects.filter(workout_id_id = workout).values_list('comment', flat=True)
     workout_dict = {"id": workout.id, "creatorID": workout.creator_id_id,
                     "title": workout.title, "caption": workout.caption,
-                    "createdDate": workout.created_date, "category": workout.category
+                    "createdDate": workout.created_date, "category": workout.category,
+                    "comments": list(all_comments)
                     }
 
     json_string = json.dumps(workout_dict)
@@ -209,64 +230,10 @@ def get10MostLikedWorkouts(request):
     json_string = json.dumps(most_common_words)
     return HttpResponse(json_string)
 
-#@api_view(['POST'])
-#def getTop10Workouts():
-#    workouts = LikedWorkout.objects.all().values_list('workout_id__id', flat=True)
-#    dict1 = {}
-#    for workout in workouts:
-#        if dict1.get(workout.id) != None: #idk the python syntax to check if a workout is in the map
-
-
-#        else:
-#            pass
-            #dict1.update(workout.id : 0)
-
-# @api_view(['POST'])
-# def get_workout_categories(request):
-#     json_workouts = json.loads(request.body.decode("utf_8"))
-#
-#     workout = Workout.objects.filter(id = None)
-#
-#     if len(workout) < 1:
-#         return Response("No Workouts")
-#     else:
-#         return Response(workout)
-
-
-# @api_view(['POST'])
-# def getSavedWorkouts(request):
-#     # not sure if userId will be passed in as well
-#     # assuming workou
-#     json_userId = json.loads(request.body.decode("utf_8"))
-#     userId = json_userId["userID"]
-#     savedWorkouts = Workout.objects.filter(saved_workouts__saver_id = userId)
-#     listOfDictionaries = [ob.__dict__ for ob in savedWorkouts]
-#     json_string = json.dumps(listOfDictionaries)
-#     return HttpResponse(json_string)
-#
-# @api_view(['POST'])
-# def getCompletedWorkouts(request):
-#     json_userId = json.loads(request.body.decode("utf_8"))
-#     userId = json_userId["userID"]
-#     completedWorkouts = WorkoutSession.objects.filter(user_id=userId)
-#     listOfDictionaries = [ob.__dict__ for ob in completedWorkouts]
-#     json_string = json.dumps(listOfDictionaries)
-#     return HttpResponse(json_string)
-#
-# def getLikedWorkouts(request):
-#     json_userId = json.loads(request.body.decode("utf_8"))
-#     userId = json_userId["userID"]
-#     liked = Workout.objects.filter(liked_workouts__liker_id=userId)
-#     listOfDictionaries = [ob.__dict__ for ob in liked]
-#     json_string = json.dumps(listOfDictionaries)
-#     return HttpResponse(json_string)
-
-# @api_view(['POST'])
-# def saveWorkout(request):
-#     # assume workout Id and User ID passed in
-#     json_Workout = json.loads(request.body.decode("utf_8"))
-#     userId = json_Workout["userID"]
-#     wID = json_Workout["workoutID"]
-#     newWorkout = SavedWorkout.create(saver_id = userId, workout_id = wID)
-#     newWorkout.save()
-#     return HttpResponse("Success")
+@api_view(['POST'])
+def get10MostLikedWorkoutsOfCategory(request):
+    category_name = json.loads(request.body)
+    words = LikedWorkout.objects.filter(category=category_name).values_list('workout_id', flat = True)
+    most_common_words = [word for word, word_count in Counter(words).most_common(10)]
+    json_strong = json.dumps(most_common_words)
+    return HttpResponse(json_strong)

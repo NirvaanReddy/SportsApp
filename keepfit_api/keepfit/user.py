@@ -48,6 +48,7 @@ class Workout(models.Model):
     title = models.CharField(max_length=255)
     caption = models.CharField(max_length=255)
     created_date = models.FloatField()
+    comment_status = models.BooleanField()
 
     class Meta:
         db_table = 'workout'
@@ -60,6 +61,14 @@ class Workout(models.Model):
 #     class Meta:
 #         db_table = 'saved_workouts'
 
+class Comments(models.Model):
+    user_id = models.ForeignKey('User', on_delete=models.CASCADE)
+    id = models.CharField(max_length=9999, primary_key=True)
+    workout_id = models.ForeignKey('Workout', on_delete=models.cascade)
+    comment = models.CharField(max_length=9999)
+
+    class Meta:
+        db_table = 'Comments'
 
 class LikedWorkout(models.Model):
     liker_id = models.ForeignKey('User', on_delete=models.CASCADE)

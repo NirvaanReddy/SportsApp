@@ -206,7 +206,7 @@ def user_login(request):
                          "date":plannedWorkout.date
                         }
                     )
-            print(planned_workouts)
+
 
             # User
             # {
@@ -306,4 +306,3 @@ def create_user(request):
         return HttpResponse("true")
     else:
         return HttpResponse("false")
-
