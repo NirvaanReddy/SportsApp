@@ -13,8 +13,23 @@ import json
 
 @api_view(['POST'])
 def publishLivestream(request):
+    livestream = json.loads(request.body.decode("utf_8"))
+
+    ls = Livestream.objects.create(id = livestream["id"], creatorID_id = livestream["creatorID"],
+                                 url = livestream["url"], description = livestream["description"],
+                                 date = livestream["date"])
+    ls.save()
     return HttpResponse("true")
 
 @api_view(['POST'])
 def getLivestreams(request):
-    return HttpResponse("unbroken chain")
+    livestreams = Livestream.objects.all()
+    dicts = []
+    for livestream in livestreams:
+         dicts.append(livestream.toDict())
+    response = json.dumps(dicts)
+
+    return HttpResponse(response)
+
+def deleteLivestream(request):
+    return HttpResponse("to be implemented")

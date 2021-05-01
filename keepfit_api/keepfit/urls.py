@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from . import user_endpoints
 from . import search_endpoints
 from . import workout_endpoints
+from . import livestream_endpoints
 
 def test_server(request):
     return HttpResponse("server is working")
@@ -44,7 +45,11 @@ urlpatterns = [
     path('publishComment/', workout_endpoints.publishComment),
     path('getWorkoutStatus/', workout_endpoints.returnCommentStatus),
     path('get10MostLikedWorkoutsOfCategory/', workout_endpoints.get10MostLikedWorkoutsOfCategory),
-    path('getMostLikedWorkoutOfCategory/', workout_endpoints.getMostLikedWorkoutOfCategory)
+    path('getMostLikedWorkoutOfCategory/', workout_endpoints.getMostLikedWorkoutOfCategory),
+    path('publishLivestream/', livestream_endpoints.publishLivestream),
+    path('getLivestreams/', livestream_endpoints.getLivestreams),
+    path('deleteLivestream/', livestream_endpoints.deleteLivestream)
+
     # path('publishWorkoutSession/', workout_endpoints.completeWorkout),
     #path('videos/')
 

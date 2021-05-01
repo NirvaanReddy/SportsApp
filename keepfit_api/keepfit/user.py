@@ -111,14 +111,14 @@ class SearchHistory(models.Model):
 class Livestream(models.Model):
     id = models.CharField(max_length=128, primary_key=True)
     creatorID = models.ForeignKey('User', on_delete = models.CASCADE)
-    url = models.CharField(max_length=512, primary_key=True)
-    description = models.CharField(max_length=1024, primary_key=True)
+    url = models.CharField(max_length=512, primary_key=False)
+    description = models.CharField(max_length=1024, primary_key=False)
     date = models.FloatField()
 
     def toDict(self):
         return {
             "id":self.id,
-            "creatorID":self.creatorID,
+            "creatorID":self.creatorID_id,
             "url":self.url,
             "description":self.description,
             "date":self.date
