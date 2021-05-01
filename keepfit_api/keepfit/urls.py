@@ -43,7 +43,8 @@ urlpatterns = [
     path('deleteWorkoutPlan/',workout_endpoints.deleteWorkoutPlan),
     path('publishComment/', workout_endpoints.publishComment),
     path('getWorkoutStatus/', workout_endpoints.returnCommentStatus),
-    path('get10MostLikedWorkoutsOfCategory/', workout_endpoints.get10MostLikedWorkoutsOfCategory)
+    path('get10MostLikedWorkoutsOfCategory/', workout_endpoints.get10MostLikedWorkoutsOfCategory),
+    path('getMostLikedWorkoutOfCategory/', workout_endpoints.getMostLikedWorkoutOfCategory)
     # path('publishWorkoutSession/', workout_endpoints.completeWorkout),
     #path('videos/')
 

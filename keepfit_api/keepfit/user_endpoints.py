@@ -3,10 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db import models
 from .s import *
-from .user import User
-from .user import Following
-from .user import Workout
-from .user import WorkoutSession
+from .user import *
 from .workout_endpoints import *
 from django.core.files import File
 from django.http import HttpResponse
@@ -15,8 +12,8 @@ import base64
 import os
 import json
 
-# photos_path = "/Users/samdonovan/Desktop/TempPics/"
-photos_path = "/home/ec2-user/photos/"
+photos_path = "/Users/samdonovan/Desktop/TempPics/" if testing else "/home/ec2-user/photos/"
+# photos_path = "/home/ec2-user/photos/"
 
 # sends user object which overwrites the user with the same ID
 # reassign everything but password
@@ -131,11 +128,11 @@ def get_user_preview(request):
     # followers = get_followers(user_name)
     # followings = get_followings(user_name)
 
-    sessionIDs = list(WorkoutSession.objects.filter(user_id__id=user_id).values_list('id', flat=True))
-    publishedWorkoutIDs = list(Workout.objects.filter(creator_id__id=user_id).values_list('id', flat=True))
+    sessionIDs = list(WorkoutSession.objects.filter(user_id_id=user_id).values_list('id', flat=True))
+    publishedWorkoutIDs = list(Workout.objects.filter(creator_id_id=user_id).values_list('id', flat=True))
 
     # liked == [String] where each string is an id of a workout the user liked
-    likedWorkouts = list(LikedWorkout.objects.filter(liker_id__id=user_id).values_list('workout_id__id', flat=True))
+    likedWorkouts = list(LikedWorkout.objects.filter(liker_id_id=user_id).values_list('workout_id_id', flat=True))
 
     items = {"id": user_id,
              "username": user.username,

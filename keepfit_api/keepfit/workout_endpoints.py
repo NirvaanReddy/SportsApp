@@ -13,8 +13,26 @@ import os
 import json
 
 
-# videos_path = "/Users/samdonovan/Desktop/TempVids/"
-videos_path = "/home/ec2-user/videos/"
+videos_path = "/Users/samdonovan/Desktop/TempVids/" if testing else "/home/ec2-user/videos/"
+# videos_path = "/home/ec2-user/videos/"
+
+def getNumberLikes(workout):
+    return LikedWorkout.objects.filter(workout_id_id = workout.id).count()
+
+@api_view(['POST'])
+def getMostLikedWorkoutOfCategory(request):
+    categoryString = json.loads(request.body.decode("utf_8"))
+    workoutsOfCategory = list(Workout.objects.filter(category=categoryString))
+    if len(workoutsOfCategory) == 0:
+        return HttpResponse("null")
+    max = -1
+    best = None
+    for workout in workoutsOfCategory:
+        currentLikes = getNumberLikes(workout)
+        if currentLikes > max:
+            max = currentLikes
+            best = workout
+    return HttpResponse(json.dumps(best.id))
 
 @api_view(['POST'])
 def publishWorkoutPlan(request):
@@ -31,11 +49,11 @@ def publishWorkoutPlan(request):
 @api_view(['POST'])
 def publishComment(request):
     new_comment_json = json.loads(request.body.decode("utf_8"))
-    username_id = new_comment_json["user_id"]
-    wID = new_comment_json["workout_id"]
+    username_id = new_comment_json["userID"]
+    wID = new_comment_json["workoutID"]
     comment = new_comment_json["comment"]
     id = new_comment_json["id"]
-    new_comment = Comments.objects.create(id = id, user_id_id = username_id, workout_id_id = wID, comment = comment)
+    new_comment = Comments.objects.create(id = id, user_id = username_id, workout_id = wID, comment = comment)
     new_comment.save()
     return HttpResponse("Success")
 
@@ -121,7 +139,7 @@ def publishWorkout(request):
         caption=workout_json["caption"],
         category=workout_json["category"],
         created_date=workout_json["createdDate"],
-        comment_status=workout_json["comment_status"]
+        comment_status=workout_json["commentsEnabled"]
     )
 
     new_workout.save()
@@ -177,11 +195,17 @@ def getWorkout(request):
     # }
 
     workout = Workout.objects.get(id=wID)
-    all_comments = Comments.objects.filter(workout_id_id = workout).values_list('comment', flat=True)
+    comments = Comments.objects.filter(workout_id = workout.id)
+    commentsDict = map(lambda comment: {
+        "id": comment.id,
+        "userID": comment.user_id,
+        "comment": comment.comment,
+        "workoutID": comment.workout_id
+    }, comments)
     workout_dict = {"id": workout.id, "creatorID": workout.creator_id_id,
                     "title": workout.title, "caption": workout.caption,
                     "createdDate": workout.created_date, "category": workout.category,
-                    "comments": list(all_comments)
+                    "comments": list(commentsDict), "commentsEnabled": workout.comment_status
                     }
 
     json_string = json.dumps(workout_dict)

@@ -1,6 +1,6 @@
 from django.db import models
 
-
+testing = True
 # Create your models here.
 
 class User(models.Model):
@@ -62,13 +62,13 @@ class Workout(models.Model):
 #         db_table = 'saved_workouts'
 
 class Comments(models.Model):
-    user_id = models.ForeignKey('User', on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
     id = models.CharField(max_length=9999, primary_key=True)
-    workout_id = models.ForeignKey('Workout', on_delete=models.cascade)
+    workout = models.ForeignKey('Workout', on_delete=models.CASCADE)
     comment = models.CharField(max_length=9999)
 
     class Meta:
-        db_table = 'Comments'
+        db_table = 'comments'
 
 class LikedWorkout(models.Model):
     liker_id = models.ForeignKey('User', on_delete=models.CASCADE)
@@ -98,6 +98,7 @@ class Following(models.Model):
 
     class Meta:
         db_table = 'followings'
+
 class SearchHistory(models.Model):
     id = models.CharField(max_length=9999, primary_key=True)
     user_id = models.ForeignKey('User', on_delete = models.CASCADE)
@@ -106,3 +107,22 @@ class SearchHistory(models.Model):
 
     class Meta:
         db_table = 'search_history'
+
+class Livestream(models.Model):
+    id = models.CharField(max_length=128, primary_key=True)
+    creatorID = models.ForeignKey('User', on_delete = models.CASCADE)
+    url = models.CharField(max_length=512, primary_key=True)
+    description = models.CharField(max_length=1024, primary_key=True)
+    date = models.FloatField()
+
+    def toDict(self):
+        return {
+            "id":self.id,
+            "creatorID":self.creatorID,
+            "url":self.url,
+            "description":self.description,
+            "date":self.date
+        }
+
+    class Meta:
+        db_table = 'livestream'
