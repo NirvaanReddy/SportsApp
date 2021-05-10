@@ -22,18 +22,7 @@ def searchCategory(request):
 
     listOfDictionaries = []
     for workout in categories:
-        comments = Comments.objects.filter(workout_id=workout.id)
-        commentsDict = map(lambda comment: {
-            "id": comment.id,
-            "userID": comment.user_id,
-            "comment": comment.comment,
-            "workoutID": comment.workout_id
-        }, comments)
-        workout_dict = {"id": workout.id, "creatorID": workout.creator_id_id,
-                        "title": workout.title, "caption": workout.caption,
-                        "createdDate": workout.created_date, "category": workout.category,
-                        "comments": list(commentsDict), "commentsEnabled": workout.comment_status
-                        }
+        workout_dict = workout.toDict()
         listOfDictionaries.append(workout_dict)
 
     print(listOfDictionaries)
@@ -96,10 +85,7 @@ def searchWorkouts(request):
 
     listOfDictionaries = []
     for workout in workouts:
-        listOfDictionaries.append({"id": workout.id, "creatorID": workout.creator_id_id,
-                                   "title": workout.title, "caption": workout.caption,
-                                   "createdDate": workout.created_date, "category": workout.category
-                                   })
+        listOfDictionaries.append(workout.toDict())
 
     print(listOfDictionaries)
     json_string = json.dumps(listOfDictionaries)

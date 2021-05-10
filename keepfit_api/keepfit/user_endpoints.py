@@ -15,6 +15,15 @@ import json
 photos_path = "/Users/samdonovan/Desktop/TempPics/" if testing else "/home/ec2-user/photos/"
 # photos_path = "/home/ec2-user/photos/"
 
+@api_view(['POST'])
+def getFollowers(request):
+    id = json.loads(request.body.decode("utf_8"))
+
+    followers = Following.objects.filter(following_id = id).values_list("follower_id",flat=True)
+
+    json_string = json.dumps(list(followers))
+    return HttpResponse(json_string)
+
 # sends user object which overwrites the user with the same ID
 # reassign everything but password
 @api_view(['POST'])
@@ -22,11 +31,6 @@ def update_user(request):
     user_info = json.loads(request.body.decode("utf_8"))
     user_id = user_info["id"]
     user = User.objects.get(id=user_id)
-
-    check_username = user_info["username"]
-    should_be_empty = User.objects.filter(username=check_username)
-    if (len(should_be_empty) != 0):
-        return HttpResponse("That username already exists")
 
     user.username = user_info["username"]
     user.bio = user_info["shortBiography"]

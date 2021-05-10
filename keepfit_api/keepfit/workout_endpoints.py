@@ -195,18 +195,7 @@ def getWorkout(request):
     # }
 
     workout = Workout.objects.get(id=wID)
-    comments = Comments.objects.filter(workout_id = workout.id)
-    commentsDict = map(lambda comment: {
-        "id": comment.id,
-        "userID": comment.user_id,
-        "comment": comment.comment,
-        "workoutID": comment.workout_id
-    }, comments)
-    workout_dict = {"id": workout.id, "creatorID": workout.creator_id_id,
-                    "title": workout.title, "caption": workout.caption,
-                    "createdDate": workout.created_date, "category": workout.category,
-                    "comments": list(commentsDict), "commentsEnabled": workout.comment_status
-                    }
+    workout_dict = workout.toDict()
 
     json_string = json.dumps(workout_dict)
     return HttpResponse(json_string)

@@ -48,7 +48,11 @@ urlpatterns = [
     path('getMostLikedWorkoutOfCategory/', workout_endpoints.getMostLikedWorkoutOfCategory),
     path('publishLivestream/', livestream_endpoints.publishLivestream),
     path('getLivestreams/', livestream_endpoints.getLivestreams),
-    path('deleteLivestream/', livestream_endpoints.deleteLivestream)
+    path('deleteLivestream/', livestream_endpoints.deleteLivestream),
+
+    path('getFollowers/', user_endpoints.getFollowers),
+    path('attemptToEnterLivestream/',livestream_endpoints.attemptToEnterLivestream),
+    path('leaveLivestream/',livestream_endpoints.leaveLivestream),
 
     # path('publishWorkoutSession/', workout_endpoints.completeWorkout),
     #path('videos/')

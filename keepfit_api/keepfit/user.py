@@ -1,6 +1,6 @@
 from django.db import models
 
-testing = False
+testing = True
 # Create your models here.
 
 class User(models.Model):
@@ -49,6 +49,21 @@ class Workout(models.Model):
     caption = models.CharField(max_length=255)
     created_date = models.FloatField()
     comment_status = models.BooleanField()
+
+    def toDict(self):
+        workout = self
+        comments = Comments.objects.filter(workout_id=workout.id)
+        commentsDict = map(lambda comment: {
+            "id": comment.id,
+            "userID": comment.user_id,
+            "comment": comment.comment,
+            "workoutID": comment.workout_id
+        }, comments)
+        return ({"id": workout.id, "creatorID": workout.creator_id_id,
+                                   "title": workout.title, "caption": workout.caption,
+                                   "createdDate": workout.created_date, "category": workout.category,
+                                   "comments": list(commentsDict), "commentsEnabled":workout.comment_status
+                                   })
 
     class Meta:
         db_table = 'workout'
@@ -114,15 +129,29 @@ class Livestream(models.Model):
     url = models.CharField(max_length=512, primary_key=False)
     description = models.CharField(max_length=1024, primary_key=False)
     date = models.FloatField()
+    maximumParticipants = models.IntegerField()
 
-    def toDict(self):
+    def toDict(self,userID):
+        joined = LivestreamParticipant.objects.filter(user_id=userID).filter(livestream_id=self.id).exists()
         return {
             "id":self.id,
             "creatorID":self.creatorID_id,
             "url":self.url,
             "description":self.description,
-            "date":self.date
+            "date":self.date,
+            "maximumParticipants":self.maximumParticipants,
+            "joined":joined
         }
+
+    def getNumberOfParticipants(self):
+        return LivestreamParticipant.objects.filter(livestream_id=self.id).count()
 
     class Meta:
         db_table = 'livestream'
+
+class LivestreamParticipant(models.Model):
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    livestream = models.ForeignKey('Livestream', on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'livestream_participant'
