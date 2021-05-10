@@ -1,6 +1,6 @@
 from django.db import models
 
-testing = True
+testing = False
 # Create your models here.
 
 class User(models.Model):
